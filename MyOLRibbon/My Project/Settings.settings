@@ -1,0 +1,26 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="" GeneratedClassName="MySettings" UseMySettingsClassName="true">
+  <Profiles />
+  <Settings>
+    <Setting Name="TimeOffRequestsConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\tlsok.local\userdata\TulsaUsers\ASmedley\Documents\Databases\TimeOffRequests.accdb&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.OleDb&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=\\tlsok.local\userdata\TulsaUsers\ASmedley\Documents\Databases\TimeOffRequests.accdb</Value>
+    </Setting>
+    <Setting Name="LocateLandingPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\LocateFolder\OpenLocates\Current\Complete\</Value>
+    </Setting>
+    <Setting Name="TaskOrderPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\TLS\Transcore Task Orders\</Value>
+    </Setting>
+    <Setting Name="TLSJobPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\TLS\</Value>
+    </Setting>
+    <Setting Name="STIJobPath" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\STI\</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

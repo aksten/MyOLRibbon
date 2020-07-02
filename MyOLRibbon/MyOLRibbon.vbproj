@@ -1,0 +1,624 @@
+﻿<Project ToolsVersion="16.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <!--
+    This section defines project-level properties.
+
+    AssemblyName
+      Name of the output assembly.
+    Configuration
+      Specifies a default value for debug.
+    OutputType
+      Must be "Library" for VSTO.
+    Platform
+      Specifies what CPU the output of this project can run on.
+    NoStandardLibraries
+      Set to "false" for VSTO.
+    RootNamespace
+      In C#, this specifies the namespace given to new files. In VB, all objects are
+      wrapped in this namespace at runtime.
+  -->
+  <PropertyGroup>
+    <ProjectTypeGuids>{BAA0C2D2-18E2-41B9-852F-F413020CAA33};{F184B08F-C81C-45F6-A57F-5ABD9991F28F}</ProjectTypeGuids>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{25DFA07F-D627-4789-B986-FA5AAC1AB746}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>MyOLRibbon</RootNamespace>
+    <AssemblyName>MyOLRibbon</AssemblyName>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <DefineConstants>VSTO40</DefineConstants>
+    <StartupObject>
+    </StartupObject>
+    <IsWebBootstrapper>False</IsWebBootstrapper>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <PublishUrl>C:\Users\ASmedley\source\repos\MyOLRibbon_Publish\</PublishUrl>
+    <InstallUrl />
+    <TargetCulture>en</TargetCulture>
+    <ApplicationVersion>1.0.0.2</ApplicationVersion>
+    <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
+    <UpdateEnabled>true</UpdateEnabled>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>days</UpdateIntervalUnits>
+    <ProductName>MyOLRibbon</ProductName>
+    <PublisherName />
+    <SupportUrl />
+    <FriendlyName>MyOLRibbon</FriendlyName>
+    <OfficeApplicationDescription />
+    <LoadBehavior>3</LoadBehavior>
+  </PropertyGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.VSTORuntime.4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft Visual Studio 2010 Tools for Office Runtime %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <PropertyGroup>
+    <!--
+      OfficeApplication
+        Add-in host application
+    -->
+    <OfficeApplication>Outlook</OfficeApplication>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionInfer>On</OptionInfer>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Debug" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DefineConstants>$(DefineConstants)</DefineConstants>
+    <DefineDebug>true</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugType>full</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DocumentationFile>MyOLRibbon.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+  <!--
+    This section defines properties that are set when the "Release" configuration is selected.
+
+    DebugSymbols
+      If "true", create symbols (.pdb). If "false", do not create symbols.
+    DefineConstants
+      Constants defined for the preprocessor.
+    EnableUnmanagedDebugging
+      If "true", starting the debugger will attach both managed and unmanaged debuggers.
+    Optimize
+      If "true", optimize the build output. If "false", do not optimize.
+    OutputPath
+      Output path of project relative to the project file.
+    WarningLevel
+      Warning level for the compiler.
+  -->
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DefineConstants>
+    </DefineConstants>
+    <DefineDebug>false</DefineDebug>
+    <DefineTrace>true</DefineTrace>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DocumentationFile>MyOLRibbon.xml</DocumentationFile>
+    <RegisterForComInterop>false</RegisterForComInterop>
+    <RemoveIntegerChecks>false</RemoveIntegerChecks>
+    <NoWarn>42016,41999,42017,42018,42019,42032,42036,42020,42021,42022</NoWarn>
+  </PropertyGroup>
+  <!--
+    This section specifies references for the project.
+  -->
+  <ItemGroup>
+    <Reference Include="Accessibility" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Management.Automation, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\WindowsPowerShell\3.0\System.Management.Automation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.Tools.Applications.Runtime, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Outlook, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Office.Tools.Common.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Office.Tools.Outlook.v4.0.Utilities, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>True</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.Office.Interop.Outlook, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
+      <Private>False</Private>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <!-- Visual Basic supports importing namespaces (equivalent to "using" statements in C#). -->
+  <ItemGroup>
+    <Import Include="Microsoft.VisualBasic" />
+    <Import Include="System" />
+    <Import Include="System.Collections.Generic" />
+    <Import Include="System.Linq" />
+    <Import Include="System.Text" />
+    <Import Include="System.Xml.Linq" />
+    <Import Include="Office = Microsoft.Office.Core" />
+    <Import Include="Outlook = Microsoft.Office.Interop.Outlook" />
+  </ItemGroup>
+  <!--
+    This section defines the user source files that are part of the project.
+     
+    A "Compile" element specifies a source file to compile.
+    An "EmbeddedResource" element specifies an .resx file for embedded resources.
+    A "None" element specifies a file that is not to be passed to the compiler (for instance, 
+    a text file or XML file).
+    The "AppDesigner" element specifies the directory where the application properties files
+    can be found.
+  -->
+  <ItemGroup>
+    <AppDesigner Include="My Project\" />
+    <Compile Include="Amanda.vb" />
+    <Compile Include="Form_frmMeeting.cls" />
+    <Compile Include="frmMeeting.Designer.vb">
+      <DependentUpon>frmMeeting.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmMeeting.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmProgressBar.Designer.vb">
+      <DependentUpon>frmProgressBar.vb</DependentUpon>
+    </Compile>
+    <Compile Include="frmProgressBar.vb">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="My Project\Resources.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ThisAddIn.vb">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="TimeOffRequestsDataSet.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TimeOffRequestsDataSet.xsd</DependentUpon>
+    </Compile>
+    <None Include="app.config" />
+    <None Include="MyOLRibbon_TemporaryKey.pfx" />
+    <None Include="ThisAddIn.Designer.xml">
+      <DependentUpon>ThisAddIn.vb</DependentUpon>
+    </None>
+    <Compile Include="ThisAddIn.Designer.vb">
+      <DependentUpon>ThisAddIn.Designer.xml</DependentUpon>
+    </Compile>
+    <Compile Include="My Project\AssemblyInfo.vb" />
+    <EmbeddedResource Include="frmProgressBar.resx">
+      <DependentUpon>frmProgressBar.vb</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="My Project\Resources.resx">
+      <Generator>VbMyResourcesResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>My.Resources</CustomToolNamespace>
+      <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.vb</LastGenOutput>
+    </EmbeddedResource>
+    <None Include="My Project\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.vb</LastGenOutput>
+    </None>
+    <Compile Include="My Project\Settings.Designer.vb">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="TimeOffRequestsDataSet.xsc">
+      <DependentUpon>TimeOffRequestsDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="TimeOffRequestsDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>TimeOffRequestsDataSet.Designer.vb</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="TimeOffRequestsDataSet.xss">
+      <DependentUpon>TimeOffRequestsDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Amanda.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iTCarothers.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iJButler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iJFissel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iLButler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iLForbes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iMCreps.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iMechanic.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iReceptionist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iRFindley.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iSafety2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iST1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iST2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iTButler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iTech.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iTWillis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iUser.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iUserBlue.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iUserGreen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iUserPurple.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iUserRed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iWFloyd.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iWKennedy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\briefcase.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gears-user-group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gear-user-group.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iAccountingGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iASmedley.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iAsstPrjMgrGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iCCrenshaw.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iCWillis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iDWillis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iEmail.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iExecGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iFleetAdmin.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iFleetMgr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iGForbes.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iMechanicGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iMechanicHelper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iMove2Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iNewFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iOKCGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iOpenFolder2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iOTavilson.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iProjMgr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iProjMgrGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iPurchMgr.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iReceptionGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iSafety3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iSafetyGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iShop2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iShop3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iShopGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iST.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iST2048.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iTechGrp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>8</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>7</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Scripting">
+      <Guid>{420B2830-E718-11CF-893D-00A0C9054228}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBScript_RegExp_55">
+      <Guid>{3F4DACA7-160D-11D2-A8E9-00104B365C9F}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iArchiveFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iAmandaTime2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iHaleeTime2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iLeaAnnTime2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iRefreshControls.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iUpdateFolders.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iAddFolder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TLS Logo Small Jobs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ST Logo Small Jobs.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TLS Logo Tul Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TLS Logo OKC Yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TLS Logo Ark Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ST Logo Ark Red.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ST Logo OKC Yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ST Logo Tul Green.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ST Logo White.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ST Logo Transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TLS Logo White.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TLS Logo Transparent.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LocatesNavi.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LocatesTicket.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\FieldLogsClock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\TLS Small Jobs 2048.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ST Small Jobs 2048.png" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionExplicit>On</OptionExplicit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionCompare>Binary</OptionCompare>
+  </PropertyGroup>
+  <PropertyGroup>
+    <OptionStrict>Off</OptionStrict>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>
+    </ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>F22CA9C4271B418A48694EAF162932E0A098949F</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <!-- Include the build rules for a Visual Basic project. -->
+  <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
+  <!-- Include additional build rules for an Office application add-in. -->
+  <Import Project="$(VSToolsPath)\OfficeTools\Microsoft.VisualStudio.Tools.Office.targets" Condition="'$(VSToolsPath)' != ''" />
+  <!-- This section defines VSTO properties that describe the host-changeable project properties. -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{BAA0C2D2-18E2-41B9-852F-F413020CAA33}">
+        <ProjectProperties HostName="Outlook" HostPackage="{29A7B9D7-A7F1-4328-8EF0-6B2D1A56B2C1}" OfficeVersion="15.0" VstxVersion="4.0" ApplicationType="Outlook" Language="vb" TemplatesPath="" DebugInfoExeName="#Software\Microsoft\Office\16.0\Outlook\InstallRoot\Path#outlook.exe" AddItemTemplatesGuid="{5D898164-AEB5-470F-97BA-9253F022FD71}" />
+        <Host Name="Outlook" PublishedHash="69C324AB27932AA2FBF2B7EA72250886FF164DE6" IconIndex="0">
+          <HostItem Name="ThisAddIn" Code="ThisAddIn.vb" CanonicalName="AddIn" PublishedHash="341B421006973DA6ECFF9E7771C273C5532C588D" CanActivate="false" IconIndex="1" Blueprint="ThisAddIn.Designer.xml" GeneratedCode="ThisAddIn.Designer.vb" />
+        </Host>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>
