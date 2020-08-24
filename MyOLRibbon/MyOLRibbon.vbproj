@@ -34,7 +34,7 @@
     <PublishUrl>C:\Users\ASmedley\source\repos\MyOLRibbon_Publish\</PublishUrl>
     <InstallUrl />
     <TargetCulture>en</TargetCulture>
-    <ApplicationVersion>1.0.0.2</ApplicationVersion>
+    <ApplicationVersion>1.0.0.3</ApplicationVersion>
     <AutoIncrementApplicationRevision>true</AutoIncrementApplicationRevision>
     <UpdateEnabled>true</UpdateEnabled>
     <UpdateInterval>7</UpdateInterval>
@@ -191,8 +191,12 @@
   </ItemGroup>
   <!-- Visual Basic supports importing namespaces (equivalent to "using" statements in C#). -->
   <ItemGroup>
+    <Import Include="Microsoft.PowerShell" />
+    <Import Include="Microsoft.PowerShell.Commands" />
     <Import Include="Microsoft.VisualBasic" />
+    <Import Include="MyOLRibbon" />
     <Import Include="System" />
+    <Import Include="System.Collections" />
     <Import Include="System.Collections.Generic" />
     <Import Include="System.Linq" />
     <Import Include="System.Text" />
@@ -600,11 +604,16 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>MyOLRibbon_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>F22CA9C4271B418A48694EAF162932E0A098949F</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>1540C24287636FD12FB49FE55138CD54E1608AC4</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>MyOLRibbon_TemporaryKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <!-- Include the build rules for a Visual Basic project. -->
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />

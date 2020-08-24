@@ -13,7 +13,7 @@ Imports System.Security
 <Assembly: AssemblyDescription("Amanda's Outlook Ribbon")>
 <Assembly: AssemblyCompany("TLS, LLC.")>
 <Assembly: AssemblyProduct("OutlookRibbon")>
-<Assembly: AssemblyCopyright("Copyright © AKS*TEN 2019")>
+<Assembly: AssemblyCopyright("Copyright © AKS*TEN 2020")>
 <Assembly: AssemblyTrademark("AKS*TEN")>
 
 ' Setting ComVisible to false makes the types in this assembly not visible 

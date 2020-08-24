@@ -71,26 +71,26 @@
           <button id="btnSaveResponse" label="Save Response" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
           <button id="btnSavePRNotice" label="Save PR Notice" description="Save PR Notices" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
           <button id="btnSaveAttOnly" label="Save Attachment Only" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnSaveUSIC" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
         </group>
         <group id ="grpAlter" label="Alter Emails" getImage="GetImage">
-          <button id="btnRemovePrefixes" label="Remove Subj Pre" description="Removes re fw external or pdf from subject line" screentip="Can be used on selected item or opened item."  size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnRemovePrefixes" label="Remove Prefix" description="Removes re fw external or pdf from subject line" screentip="Can be used on selected item or opened item."  size="large" getImage="GetImage" onAction="GetOnAction" />
          </group>
-        <group id ="grpTranscore" label="Transcore Task Orders" getImage="GetImage">
-          <button id="btnSaveTaskOrder" label="Save Task Order" description="Saves task order to job folder and transcore folder." screentip="Can be used on ONE selected item at a time."  size="large" getImage="GetImage" onAction="GetOnAction" />
+        <group id="grpBrowse2" label="Open Folder" getImage="GetImage">
+          <dropDown id="ddBrowse2BArchiveFolders" label="Open TLS Archived 19:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2BSTArchiveFolders" label="Open BST Archived 19:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2QuoteFolders" label="Open Quote:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <!--<dropDown id="ddBrowse2TulEmpFolders" label="Open TUL Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2ArkEmpFolders" label="Open ARK Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2OkcEmpFolders" label="Open OKC Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>-->
         </group>
-        <group id ="grpTestBox" label ="Testing"> 
-          <editBox id="txtJobNumber" sizeString="Create Billing Text" getText="GetEditBoxText" maxLength="8" onChange="GetOnChange"/>
-          <button id="btnCreateBillText" label="Create Billing Text" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction" />
-          
-        </group>
+        
       </tab>
       <tab id="tabDropDowns" label="Folders">
         <group id="grpSmallJobs" label="Small Jobs" getImage="GetImage">
-          <button id="btnAddBilledDetails" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />
-          <menu id="mnuArchiveTLS" size ="normal" itemSize="normal" label="Archive TLS" getImage="GetImage">
+            <menu id="mnuArchiveTLS" size ="normal" itemSize="normal" label="Archive TLS" getImage="GetImage">
             <button id="btnArchiveTULTLScuryear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
             <button id="btnArchiveTULTLSprevyear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
-            <button id="btnArchiveTULTLS18" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
           </menu>
           <menu id="mnuArchiveSTI" size ="normal" itemSize="normal" label="Archive STI" getImage="GetImage">
             <button id="btnArchiveTULSTIcuryear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
@@ -108,21 +108,18 @@
           <dropDown id="ddBSTArchiveFolders" label="BST 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddBSTArchiveFolders20" label="BST 20 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddBArchiveFolders20" label="TLS 20 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <separator id="sep987"/>
+          <editBox id="txtJobNumber" sizeString="Create Billing Text" getText="GetEditBoxText" maxLength="8" onChange="GetOnChange"/>
+          <button id="btnCreateBillText" label="Create Billing Text" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction" />
           <button id="btnSaveInvoice" label="Save Invoice" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction"/>
+          <!--<button id="btnAddBilledDetails" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />-->
+          <button id="btnSaveTaskOrder" label="Save Task Order" description="Saves task order to job folder and transcore folder." screentip="Can be used on ONE selected item at a time."  size="large" getImage="GetImage" onAction="GetOnAction" />
           <separator id ="sep333"/>   
           <dropDown id="ddJobFolders" label="Job>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddVendorFolders" label="Vendor>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
          <separator id="sepVert2"/>
           <dropDown id="ddConCity" label="Contract>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddNonConCity" label="Non-Contract>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-        </group>
-        <group id="grpBrowse2" label="Open Folder" getImage="GetImage">
-          <dropDown id="ddBrowse2BArchiveFolders" label="Open TLS Archived 19:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBrowse2BSTArchiveFolders" label="Open BST Archived 19:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBrowse2QuoteFolders" label="Open Quote:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <!--<dropDown id="ddBrowse2TulEmpFolders" label="Open TUL Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBrowse2ArkEmpFolders" label="Open ARK Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBrowse2OkcEmpFolders" label="Open OKC Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>-->
         </group>
         <group id="grpFolderActions" getLabel="Folder Actions" getImage="GetImage">
           <button id="btnAddFolder" label="Add New Folder" description="Add a New Folder" screentip="Add New Folder" supertip="You will be prompted for the parent and subfolder under 'Folders'" size="large" getImage="GetImage" onAction="GetOnAction" />

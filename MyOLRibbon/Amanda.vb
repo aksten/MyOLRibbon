@@ -145,6 +145,8 @@ Public Class amanda
                 ribbon.Invalidate()
             Case Is = "btnMoveSenderFolder2"
                 MoveToSenderFolder()
+            Case Is = "btnSaveUSIC"
+                SaveUSICResponse()
             Case Else
                 MessageBox.Show("Error! No Action Found")
         End Select
@@ -158,6 +160,8 @@ Public Class amanda
         curYear = Format(Now(), "yyyy")
         prevYear = Format(prevYearDt, "yyyy")
         Select Case control.Id
+            Case Is = "btnSaveUSIC"
+                Return "Save USIC Response"
             Case Is = "btnArchiveTULTLS18"
                 Return "TUL TLS (2018)"
             Case Is = "btnArchiveTULTLSprevyear"
@@ -399,8 +403,6 @@ Public Class amanda
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iArchiveFolder)
             Case Is = "btnArchiveARKSTIcuryear"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iARKST)
-            Case Is = "btnDGill"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iProjMgr)
             Case Is = "btnAddFolder"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iAddFolder)
             Case Is = "btnInvalidate"
@@ -413,112 +415,24 @@ Public Class amanda
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iOKCGrp)
             Case Is = "mnuExecs"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iExecGrp)
-            Case Is = "btnDWillis"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iDWillis)
-            Case Is = "btnCWillis"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iCWillis)
-            Case Is = "btnLButler"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iLButler)
-            Case Is = "btnTButler"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iTButler)
-            Case Is = "btnWFloyd"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iWFloyd)
             Case Is = "mnuSafety"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iSafetyGrp)
-            Case Is = "btnMCreps"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMCreps)
-            Case Is = "btnERoldan"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iSafety2)
-            Case Is = "btnLSmith"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iSafety3)
             Case Is = "mnuProjMgr"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iProjMgrGrp)
-            Case Is = "btnGForbes"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iGForbes)
-            Case Is = "btnWKennedy"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iWKennedy)
-            Case Is = "btnDScott"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iProjMgr)
-            Case Is = "btnLForbes"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iLForbes)
-            Case Is = "btnJWillliams"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iProjMgr)
             Case Is = "mnuAccounting"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iAccountingGrp)
-            Case Is = "btnJButler"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iJButler)
-            Case Is = "btnTWillis"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iTWillis)
-            Case Is = "btnOTavilson"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iOTavilson)
             Case Is = "mnuOffice"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iOKCGrp)
-            Case Is = "btnTCarothers"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iTCarothers)
             Case Is = "mnuAmanda"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iASmedley)
             Case Is = "btnASmedley"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iASmedley)
-            Case Is = "btnReceptionist"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iReceptionist)
-            Case Is = "btnCCrenshaw"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUserPurple)
-            Case Is = "btnRFindley"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iRFindley)
             Case Is = "mnuWarehouse"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iShopGrp)
-            Case Is = "btnRAshlock"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iPurchMgr)
-            Case Is = "btnCButler"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iShop2)
-            Case Is = "btnARKWHMgr"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iShop3)
-            Case Is = "btnJMcGinley"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iShop3)
-            Case Is = "mnuSignalTek"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iST)
-            Case Is = "btnJFissel"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iJFissel)
-                'Case Is = "btnMove"
-                '   pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMove2Folder)
-                'Case Is = "btnEmail"
-                '   pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iEmail)
-                'Case Is = "btnOpenFolder"
-             '   pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iOpenFolder2)
-            Case Is = "btnVacancySTAsst"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iST1)
-            Case Is = "btnLDelgado"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iST2)
-            Case Is = "btnJHartley"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iST1)
-            Case Is = "btnLTouchette"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iST2)
-            Case Is = "btnBConroy"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iST1)
             Case Is = "mnuForemans"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.gear_user_group)
             Case Is = "grpForemans"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.gear_user_group)
-            Case Is = "btnCCoffelt"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnGCortes"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnCDelValle"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnCForeman"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnMGonzalez"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnDHoward"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnRKent"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnMMcCall"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnDWest"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
-            Case Is = "btnBByers"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iTButler)
             Case Is = "btnASPayStubs"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMove2Folder)
             Case Is = "btnASAccounts"
@@ -529,36 +443,12 @@ Public Class amanda
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMove2Folder)
             Case Is = "btnRemovePrefixes"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iEmail)
-            Case Is = "mnuMechanics"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanicGrp)
-            Case Is = "btnJMudge"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iFleetMgr)
-            Case Is = "btnEFrench"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanicHelper)
-            Case Is = "btnSCruz"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanic)
-            Case Is = "btnTGreen"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanic)
-            Case Is = "btnJettMudge"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanic)
-            Case Is = "btnJGuerrero"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanic)
-            Case Is = "btnALittlefield"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanic)
-            Case Is = "btnSStrode"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanic)
-            Case Is = "btnNVanDalsem"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMechanic)
-            Case Is = "btnAHernandez"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iShop3)
             Case Is = "btnAddBilledDetails"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.briefcase)
-            Case Is = "btnBJohnson"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iReceptionist)
-            Case Is = "btnTBond"
-                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iCWillis)
             Case Is = "btnSaveTaskOrder"
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.briefcase)
+            Case Is = "btnSaveUSIC"
+                pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iMove2Folder)
             Case Else
                 pictureDisp = PictureConverter.ImageToPictureDisp(My.Resources.iUser)
         End Select
@@ -906,7 +796,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Small Jobs\Quotes - Pending")
@@ -941,7 +833,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors")
@@ -968,7 +862,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Small Jobs\TUL\STI")
@@ -995,7 +891,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Small Jobs\ARK\STI")
@@ -1022,7 +920,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Small Jobs\TUL\TLS")
@@ -1049,7 +949,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Jobs")
@@ -1074,7 +976,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2019")
@@ -1099,7 +1003,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2020")
@@ -1124,7 +1030,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2019")
@@ -1149,7 +1057,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2020")
@@ -1174,7 +1084,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\SignalTek\Cities\Contract")
@@ -1199,7 +1111,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\SignalTek\Cities\Non-Contract")
@@ -1224,7 +1138,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\ARK")
@@ -1249,7 +1165,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL")
@@ -1274,7 +1192,9 @@ Public Class amanda
         Dim oFolder As Outlook.MAPIFolder
         Dim subFolders As Object
         Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
         oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
         oFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\OKC")
@@ -1302,6 +1222,26 @@ Public Class amanda
         tulPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL\"
         okcPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\OKC\"
         Select Case senderName
+            Case Is = "Alejandra Ochoa"
+                strFolder = tulPath & "Alejandra Ochoa"
+            Case Is = "Sebastian Castaneda"
+                strFolder = okcPath & "Sebastian Castaneda"
+            Case Is = "Juli Aguiniga"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Gades Sales"
+            Case Is = "Nicholas Carpenter"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
+            Case Is = "Trevor Turner"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
+            Case Is = "R.K. Black, Inc. Help Desk"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
+            Case Is = "R.K. Black Help Desk"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
+            Case Is = "Brooke Wincapaw"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
+            Case Is = "itservices@rkblack.com"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
+            Case Is = "tls.ricoh@gmail.com"
+                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
             Case Is = "Heath Hendrix"
                 strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
             Case Is = "RK Black Help Desk"
@@ -1312,8 +1252,6 @@ Public Class amanda
                 strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
             Case Is = "Robert Taylor"
                 strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Madalynn Tolbert"
-                strFolder = tulPath & "Madalynn Tolbert"
             Case Is = "Kelley Deardeuff"
                 strFolder = okcPath & "Kelley Deardeuff"
             Case Is = "Josh Fisher"
@@ -1322,8 +1260,6 @@ Public Class amanda
                 strFolder = tulPath & "Bobby Austin"
             Case Is = "Todd Gowen"
                 strFolder = tulPath & "Todd Gowen"
-            Case Is = "Kelley Deardeuff"
-                strFolder = okcPath & "Kelley Deardeuff"
             Case Is = "Justin Bloomfield"
                 strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
             Case Is = "Justin Dorsey"
@@ -1342,14 +1278,16 @@ Public Class amanda
                 strFolder = tulPath & "Amanda Kay Smedley"
             Case Is = "Becky Smedley"
                 strFolder = tulPath & "Amanda Kay Smedley"
+            Case Is = "Amanda Smedley"
+                strFolder = tulPath & "Amanda Kay Smedley"
             Case Is = "Amanda K. Smedley"
+                strFolder = tulPath & "Amanda Kay Smedley"
+            Case Is = "Amanda Kay Smedley"
                 strFolder = tulPath & "Amanda Kay Smedley"
             Case Is = "asmedley@tlsokc.com"
                 strFolder = tulPath & "Amanda Kay Smedley"
             Case Is = "Antonio Gonzalez"
                 strFolder = tulPath & "Mechanics\Antonio Gonzalez"
-            Case Is = "Halee Krajicek"
-                strFolder = tulPath & "Halee Krajicek"
             Case Is = "Lea Ann Forbes"
                 strFolder = tulPath & "Lea Ann Forbes"
             Case Is = "Gary Forbes"
@@ -1396,14 +1334,10 @@ Public Class amanda
                 strFolder = tulPath & "Mario Gonzalez"
             Case Is = "Robert Kent"
                 strFolder = tulPath & "Robert Kent"
-            Case Is = "Brenda Johnson"
-                strFolder = okcPath & "Brenda Johnson"
             Case Is = "Mike McCall"
                 strFolder = tulPath & "Mike McCall"
             Case Is = "Raymond Ashlock"
                 strFolder = tulPath & "Raymond Ashlock"
-            Case Is = "Jesus Guerrero"
-                strFolder = tulPath & "Mechanics\Jesus Guerrero"
             Case Is = "Nathan VanDalsem"
                 strFolder = tulPath & "Mechanics\Nathan VanDalsem"
             Case Is = "Larry Butler"
@@ -1456,12 +1390,6 @@ Public Class amanda
                 strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\DPS"
             Case Is = "noreply@dps.ok.gov"
                 strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\DPS"
-            Case Is = "Brad Coats"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Support\3 Nines Tech"
-            Case Is = "Steve Budzisz"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Support\3 Nines Tech"
-            Case Is = "3Nines Support Desk"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Support\3 Nines Tech"
             Case Is = "ProofPoint Essentials"
                 strFolder = "\\ASmedley@tlsokc.com\Folders\Support\Barracuda Spam Emails"
             Case Is = "lb53@sbcglobal.net"
@@ -1497,24 +1425,27 @@ Public Class amanda
             Case Else
                 strFolder = "\\ASmedley@tlsokc.com\Inbox"
         End Select
-
         If strFolder = "\\ASmedley@tlsokc.com\Inbox" Then
             MessageBox.Show("Folder does not exist for sender " & senderName & ".")
             senderFolder = strFolder
             Return False
         Else
-                senderFolder = strFolder
+            senderFolder = strFolder
             Return True
         End If
     End Function
     Public Sub MoveToSenderFolder()
-        On Error Resume Next
+
         Dim xOl As Outlook.Application
-        xOl = GetObject(, "Outlook.Application")
         Dim NS As Outlook.NameSpace
         Dim MoveToFolder As Outlook.MAPIFolder
         Dim objItem As Object
-
+        On Error Resume Next
+        xOl = GetObject(, "Outlook.Application")
+        If xOl Is Nothing Then
+            xOl = CreateObject("Outlook.Application")
+        End If
+        On Error GoTo 0
         NS = xOl.GetNamespace("MAPI")
 
         If xOl.ActiveExplorer.Selection.Count = 0 Then
@@ -1525,6 +1456,12 @@ Public Class amanda
             'If objItem.Class = Outlook.OlObjectClass.olMail Then
             If objItem.subject Like "*Payroll Check Print*" Then
                 MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL\Amanda Kay Smedley\PayStubs")
+            ElseIf objItem.subject Like "*Applicant*" Or objItem.Subject Like "*Application*" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\Applicants")
+            ElseIf objItem.subject Like "*Leave Used*" Or objItem.subject Like "*Leave Cancelled*" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\List Of Emps Out Today")
+            ElseIf objItem.subject Like "*List of Employees Out*" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\List Of Emps Out Today")
             Else
                 GetSenderFolder(objItem.SenderName)
                 MoveToFolder = GetFolder(senderFolder)
@@ -1555,12 +1492,10 @@ Public Class amanda
 
         xOl = GetObject(, "Outlook.Application")
 
-        On Error GoTo 0
-
         If xOl Is Nothing Then
             xOl = CreateObject("Outlook.Application")
         End If
-
+        On Error GoTo 0
         'xItem = GetCurrentItem()
         If TypeName(xOl.ActiveWindow) = "Explorer" Then
             For Each xItem In xOl.ActiveExplorer.Selection
@@ -2230,10 +2165,13 @@ ExitHandler:
     End Function
     Public Function GetFolder(ByVal folderPath As String) As Outlook.MAPIFolder
         Dim xOl As Outlook.Application = New Outlook.Application
+        On Error Resume Next
         xOl = GetObject(, "Outlook.Application")
+        On Error GoTo 0
         If xOl Is Nothing Then
             xOl = CreateObject("Outlook.Application")
         End If
+
         Dim NS As Outlook.NameSpace
         NS = xOl.GetNamespace("MAPI")
         Dim myFolder As Outlook.MAPIFolder
@@ -3122,6 +3060,152 @@ Exit_Handler:
 Err_Handler:
         MessageBox.Show(text:="Err: " & Err.Number & vbNewLine & "Desc: " & Err.Description & vbNewLine & "Src: Ticket_SaveAsPDFwAtt", caption:="ERROR", buttons:=+vbOKOnly)
         Resume Exit_Handler
+    End Sub
+
+    Public Sub SaveUSICResponse()
+        Dim olOut As Outlook.Application
+        Dim fso As FileSystemObject
+        Dim blnOverwrite As Boolean
+        Dim sendEmailAddr As String
+        Dim senderName As String
+        Dim rcvdTime As String
+        Dim pubTime As String
+        Dim looper As Integer
+        Dim plooper As Integer
+        Dim oMail As Outlook.MailItem
+        Dim obj As Object
+        Dim mySelection As Selection
+        Dim bPath As String
+        Dim EmailSubject As String
+        Dim saveName As String
+        Dim objCount As Long
+        Dim objCount2 As Long
+        Dim progressForm As frmProgressBar
+        Dim atmt As Attachment
+        Dim atmtName As String
+        Dim atmtSave As String
+        Dim iForLoop As Long
+        Dim aForLoop As Long
+        Dim objItem As Outlook.MailItem
+        Dim fileName As String
+        Dim ticketNumber As String
+        Dim memberCode As String
+        Dim sFolders As Outlook.Folders
+        Dim oFolder As Outlook.Folder
+        Dim bWild As Boolean
+        Dim bFound As Boolean
+        Dim sFind As String
+        bWild = True
+
+        On Error Resume Next
+        olOut = GetObject(, "Outlook.Application")
+        If olOut Is Nothing Then
+            olOut = CreateObject("Outlook.Application")
+        End If
+        On Error GoTo Err_Handler
+
+        progressForm = New frmProgressBar()
+        With progressForm
+            .Show()
+            .lblStatus.Text = defaultStatus
+            .myProgressBar.Value = 0
+        End With
+        isCancelled = False
+
+        mySelection = olOut.ActiveExplorer.Selection
+        objCount2 = mySelection.Count
+        objCount = 0
+        progressValue = 0
+        progressForm.myProgressBar.Value = progressValue
+        progressForm.myProgressBar.Update()
+
+        For Each obj In mySelection
+            System.Windows.Forms.Application.DoEvents()
+            If isCancelled Then
+                MessageBox.Show("User cancelled at " & CStr(objCount) & " of " & CStr(objCount2) & " emails.")
+                Exit Sub
+            End If
+
+            objCount = objCount + 1
+
+            strStatus = "Processing attachment from email " & objCount & " of " & objCount2 & "..."
+            progressForm.lblStatus.Text = strStatus
+            progressForm.Update()
+
+            oMail = obj
+
+            memberCode = "USIC"
+
+            'User Options
+            blnOverwrite = True 'False = don't overwrite existing pdf, true = do overwrite
+
+            If oMail.Attachments.Count > 0 Then
+
+                strStatus = "Saving attachment(s) from email " & objCount & " of " & objCount2 & "..."
+                    progressForm.lblStatus.Text = strStatus
+                    progressForm.Update()
+                    For Each atmt In oMail.Attachments
+                        If Right(atmt.FileName, 3) = "pdf" Then
+                            ticketNumber = ExtractTicketNumber(atmt.FileName)
+                            fileName = "2" & ticketNumber & "_" & memberCode & ".pdf"
+
+                            'Path to save directory
+                            bPath = Path.Combine(My.Settings.LocateLandingPath & ticketNumber & "\")
+                            Debug.Print("bPath: " & bPath)
+                            'Create directory if it does't already exist
+                            If Dir(bPath, vbDirectory) = vbNullString Then
+                                MkDir(bPath)
+                            End If
+
+                            atmtName = bPath & fileName
+                            atmtSave = atmtName
+                            atmt.SaveAsFile(atmtSave)
+                        End If
+                    Next atmt
+
+            End If
+            oMail.Close(OlInspectorClose.olDiscard)
+            progressValue = (objCount / objCount2) * 100
+            progressForm.myProgressBar.Value = progressValue
+            progressForm.myProgressBar.Update()
+
+            progressForm.lblStatus.Text = defaultStatus
+            progressForm.myProgressBar.Value = 0
+            progressForm.myProgressBar.Update()
+            progressForm.Close()
+
+            If mySelection.Count > 0 Then
+                If mySelection.Count > 1 Then
+                    MessageBox.Show("Too many items selected.")
+                    GoTo Exit_Handler
+                Else
+                    For Each objItem In mySelection
+                        If isCancelled = False Then
+                            objItem.UnRead = False
+                        Else
+                            GoTo Exit_Handler
+                        End If
+                    Next objItem
+
+                    If SpeedUp = False Then System.Windows.Forms.Application.DoEvents()
+
+                    MoveToFolder_FullPath("\\Locates\Locates\Responses\USIC")
+
+                End If
+            ElseIf mySelection.Count = 0 Then
+                MessageBox.Show("No items selected.")
+                GoTo Exit_Handler
+            End If
+        Next obj
+Exit_Handler:
+        isCancelled = False
+        NAR(olOut)
+        NAR(mySelection)
+        NAR(progressForm)
+        Exit Sub
+Err_Handler:
+        MessageBox.Show("Err: " & Err.Number & vbNewLine & "Desc: " & Err.Description & vbNewLine & Err.Source)
+        GoTo Exit_Handler
     End Sub
     Public Sub SaveInvoice_PDF()
         Dim olOut As Outlook.Application
