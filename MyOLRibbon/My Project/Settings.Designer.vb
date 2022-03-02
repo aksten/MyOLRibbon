@@ -14,7 +14,7 @@ Option Explicit On
 
 
 <Global.System.Runtime.CompilerServices.CompilerGeneratedAttribute(),  _
- Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.6.0.0"),  _
+ Global.System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0"),  _
  Global.System.ComponentModel.EditorBrowsableAttribute(Global.System.ComponentModel.EditorBrowsableState.Advanced)>  _
 Partial Friend NotInheritable Class MySettings
     Inherits Global.System.Configuration.ApplicationSettingsBase
@@ -66,7 +66,7 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Job Folders\LocateFolder\OpenLocates\Current\Complete\")>  _
+     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Locates\OpenLocates\Current\Complete\")>  _
     Public Property LocateLandingPath() As String
         Get
             Return CType(Me("LocateLandingPath"),String)
@@ -78,7 +78,7 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\TLS\Transcore Task Orders\")>  _
+     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\TLS\Transcore Task Orders\")>  _
     Public Property TaskOrderPath() As String
         Get
             Return CType(Me("TaskOrderPath"),String)
@@ -90,7 +90,7 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\TLS\")>  _
+     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\TLS\")>  _
     Public Property TLSJobPath() As String
         Get
             Return CType(Me("TLSJobPath"),String)
@@ -102,7 +102,7 @@ Partial Friend NotInheritable Class MySettings
     
     <Global.System.Configuration.UserScopedSettingAttribute(),  _
      Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
-     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\STI\")>  _
+     Global.System.Configuration.DefaultSettingValueAttribute("\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\STI\")>  _
     Public Property STIJobPath() As String
         Get
             Return CType(Me("STIJobPath"),String)

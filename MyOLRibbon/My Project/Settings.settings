@@ -11,16 +11,16 @@
       <Value Profile="(Default)">Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\Users\ASmedley\OneDrive - Traffic &amp; Lighting Systems, LLC\Documents\Databases\TimeOffRequests.accdb</Value>
     </Setting>
     <Setting Name="LocateLandingPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\LocateFolder\OpenLocates\Current\Complete\</Value>
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Locates\OpenLocates\Current\Complete\</Value>
     </Setting>
     <Setting Name="TaskOrderPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\TLS\Transcore Task Orders\</Value>
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\TLS\Transcore Task Orders\</Value>
     </Setting>
     <Setting Name="TLSJobPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\TLS\</Value>
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\TLS\</Value>
     </Setting>
     <Setting Name="STIJobPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\STI\</Value>
+      <Value Profile="(Default)">\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\STI\</Value>
     </Setting>
   </Settings>
 </SettingsFile>
