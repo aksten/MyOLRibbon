@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui" loadImage="GetImage" onLoad="OnRibbonLoad">
+  <ribbon startFromScratch="false">
+    <tabs>
+      <tab id="tabTLS" label="TLS">
+        <group id="grpDept" autoScale="true" centerVertically="true" label="Departments" getImage="GetImage">
+          
+         <!--<menu id="mnuProjMgr" size="large" itemSize="large" label="Project Managers" getImage="GetImage">
+            <menuSeparator id="sepPM" title="Project Managers" />
+            <button id="btnGForbes" label="Gary F" description="Tulsa" screentip="Cell Number / Extension" supertip="(918) 519-6566 / 252" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnWKennedy" label="Wayne K" description="Tulsa" screentip="Cell Number / Extension" supertip="(918) 264-0561 / 204" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnDScott" label="Dusty S" description="OKC" screentip="Cell Number / Extension" supertip="(918) 271-0470 / 123" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnDGill" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" getImage="GetImage" onAction="GetOnAction"/>
+            <menuSeparator id="sepAsstPM" title="Asst. Project Manager" />
+            <button id="btnLForbes" label="Lea Ann F" description="Tulsa" screentip="Office Extension" supertip="202" getImage="GetImage" onAction="GetOnAction"/>
+            <menuSeparator id="sepGenSupe" title="General Supervisor" />
+            <button id="btnJWillliams" label="Jay W" description="OKC" screentip="Cell Number / Extension" supertip="(405) 615-9096 / 111" getImage="GetImage" onAction="GetOnAction"/>
+          </menu>-->
+          <!--End menu (mnuProjMgr) NOT delete this remark-->
+                    <!--End menu (mnuAccounting) NOT delete this remark-->
+          <!--<menu id="mnuOffice" size="large" itemSize="large" label="Office" getImage="GetImage">
+            <menuSeparator id="sepHumanResources" title="Human Resources" />
+            <button id="btnTCarothers" label="Tonya C" description="HR" screentip="Cell Number / Extension" supertip="(405) 590-9437 / 112" getImage="GetImage" onAction="GetOnAction"/>
+            <menuSeparator id="sepTulsaOffice" title="Tulsa Division" />-->
+            <menu id="mnuAmanda" size="large" itemSize="normal" label="Amanda S" description="Manager" screentip="Office Extension" supertip="210" getImage="GetImage">
+              <button id="btnASmedley" label="Amanda S" description="Manager" screentip="Office Extension" supertip="210" getImage="GetImage" onAction="GetOnAction"/>
+              <button id="btnASPayStubs" label="My PayStubs" getImage="GetImage" onAction="GetOnAction"/>
+              <button id="btnASAccounts" label="My Accounts" getImage="GetImage" onAction="GetOnAction"/>
+              <button id="btnASNorth" label="Northstar" getImage="GetImage" onAction="GetOnAction"/>
+              <button id="btnASGraphics" label="My Graphics" getImage="GetImage" onAction="GetOnAction"/>
+            </menu>
+          <!--</menu>
+          End menu (mnuOffice) NOT delete this remark-->
+          <!--<menu id="mnuWarehouse" size="large" itemSize="large" label="Warehouse &#38;&#38; Purchasing" getImage="GetImage">
+            <menuSeparator id="sepManagers" title="Warehouse Managers" />
+            <button id="btnRAshlock" label="Ray A" description="Tulsa" screentip="Cell Number / Extension" supertip="(918) 830-6944 / 240" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnCButler" label="Charlie B" description="OKC" screentip="Cell Number / Extension" supertip="(405) 615-1904 / 114" getImage="GetImage" onAction="GetOnAction"/>
+            <menuSeparator id="sepForeman" title="Warehouse Foreman" />
+            <button id="btnARKWHMgr" label= "Vacancy" description="Arkansas" screentip="Cell Number / Extension" supertip="Vacant / 302" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnJMcGinley" label="James M" description="OKC" screentip="Cell Number / Extension" supertip="(405) 615-3023 / 115" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnAHernandez" label="Abisai H" description="OKC" screentip="Cell Number" supertip="(405) 615-1905" getImage="GetImage" onAction="GetOnAction"/>
+          </menu>-->
+          <!--End menu (mnuWarehouse) NOT delete this remark-->
+          <!--<menu id="mnuSignalTek" size="large" itemSize="large" label="SignalTek" getImage="GetImage">
+            <button id="btnJFissel" description="Sr. Tech" label="John F" screentip="Cell Number / Extension" supertip="(918) 830-7750 / 205" getImage="GetImage" onAction="GetOnAction"/>
+            <menuSeparator id="sepTUL" title="Tulsa Division" />
+            <button id="btnVacancySTAsst" label="Vacancy" description="Vacant Tech's Asst." screentip="Cell Number" supertip="Vacant" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnLDelgado" label="Luis D" description="Tech's Asst." screentip="Cell Number" supertip="(918) 404-0058" getImage="GetImage" onAction="GetOnAction"/>
+            <menuSeparator id="sepOKC" title="OKC Division" />
+            <button id="btnJHartley" label="Josh H" description="Signal Technician" screentip="Cell Number / Extension" supertip="(405) 615-1902 / 107" getImage="GetImage" onAction="GetOnAction"/>
+            <button id="btnLTouchette" label="Willie T" description="Tech's Asst." screentip="Cell Number" supertip="(405) 615-8483" getImage="GetImage" onAction="GetOnAction"/>
+            <menuSeparator id="sepARK" title="Arkansas Division" />
+            <button id="btnBConroy" label="Bill Conroy" description="Signal Technician" getImage="GetImage" onAction="GetOnAction"/>
+          </menu>-->
+          <!--End menu (mnuSignalTek) NOT delete this remark-->
+          <button id="btnMoveSenderFolder" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+        </group>
+        <group id="grpMoves" getLabel="Move to Folders/Other Actions" getImage="GetImage">
+          <button id="btnMovePayroll" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
+          <button id="btnMeterReq" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
+          <button id="btnRKBlack" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
+          <button id="btnSTUPS" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
+          <button id="btnSpam" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
+          <separator id="sep33"/>
+          <button id="btnSendNewestPhoneList" label="Send Phone List" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnEmailNoOp" label="Email No Operator" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
+          <button id="btnEmailTRDue" label="Email T.R. Due" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />
+      </group>
+        <group id="grpProcess" label="Process 2 PDF" getImage="GetImage">
+          <button id="btnSaveTicket" label="Save Ticket" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnSaveResponse" label="Save Response" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnSavePRNotice" label="Save PR Notice" description="Save PR Notices" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnSaveAttOnly" label="Save Attachment Only" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnSaveUSIC" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+        </group>
+        <group id ="grpAlter" label="Alter Emails" getImage="GetImage">
+          <button id="btnRemovePrefixes" label="Remove Prefix" description="Removes re fw external or pdf from subject line" screentip="Can be used on selected item or opened item."  size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnFixLocateSubjects" label="Fix Move Ticket" description="Renames subject line." screentip="Can be used on selected item or opened item."  size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnFixLocateResponseSubjects" label="Fix Move Response" description="Move ticket to job ticket folder." size="large" getImage="GetImage" onAction="GetOnAction" />
+        </group>
+        <group id="grpBrowse2" label="Open Folder" getImage="GetImage">
+          <dropDown id="ddBrowse2BArchiveFolders" label="Open TLS Archived:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2BSTArchiveFolders" label="Open BST Archived:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2QuoteFolders" label="Open Quote:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <!--<dropDown id="ddBrowse2TulEmpFolders" label="Open TUL Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2ArkEmpFolders" label="Open ARK Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2OkcEmpFolders" label="Open OKC Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>-->
+        </group>
+        
+      </tab>
+      <tab id="tabDropDowns" label="Folders">
+        <group id="grpSmallJobs" label="Small Jobs" getImage="GetImage">
+            <menu id="mnuArchiveTLS" size ="normal" itemSize="normal" label="Archive TLS" getImage="GetImage">
+            <button id="btnArchiveTULTLScuryear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
+            <button id="btnArchiveTULTLSprevyear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
+          </menu>
+          <menu id="mnuArchiveSTI" size ="normal" itemSize="normal" label="Archive STI" getImage="GetImage">
+            <button id="btnArchiveTULSTIcuryear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
+            <button id="btnArchiveTULSTIprevyear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
+            <button id="btnArchiveARKSTIcuryear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
+            <button id="btnArchiveARKSTIprevyear" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip"  getImage="GetImage" onAction="GetOnAction" />
+          </menu>
+        </group>
+        <group id="grpMove2" label="Move Email to Folder" getImage="GetImage">
+          <dropDown id="ddTLSFolders" label="TLS Small Job>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddSTIFolders" label="STI Small Job>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddQuoteFolders" label="Quote>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <separator id="sep233"/>
+          <dropDown id="ddBArchiveFolders21" label="TLS 21 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBSTArchiveFolders21" label="BST 21 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <separator id="sep555"/>
+          <dropDown id="ddBArchiveFolders22" label="TLS Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBSTArchiveFolders22" label="BST Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <!--><dropDown id="ddBArchiveFolders" label="TLS 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBSTArchiveFolders" label="BST 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>-->
+          <separator id="sep987"/>
+          <editBox id="txtJobNumber" sizeString="Create Billing Text" getText="GetEditBoxText" maxLength="8" onChange="GetOnChange"/>
+          <button id="btnCreateBillText" label="Create Billing Text" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction" />
+          <button id="btnSaveInvoice" label="Save Invoice" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction"/>
+          <!--<button id="btnAddBilledDetails" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />-->
+          <button id="btnSaveTaskOrder" label="Save Task Order" description="Saves task order to job folder and transcore folder." screentip="Can be used on ONE selected item at a time."  size="large" getImage="GetImage" onAction="GetOnAction" />
+          <separator id ="sep333"/>   
+          <dropDown id="ddJobFolders" label="Job>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddVendorFolders" label="Vendor>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+         <separator id="sepVert2"/>
+          <dropDown id="ddConCity" label="Contract>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddNonConCity" label="Non-Contract>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+        </group>
+        <group id="grpFolderActions" getLabel="Folder Actions" getImage="GetImage">
+          <button id="btnAddFolder" label="Add New Folder" description="Add a New Folder" screentip="Add New Folder" supertip="You will be prompted for the parent and subfolder under 'Folders'" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnInvalidate" label= "Refresh Controls" description="Refresh Drop Down Controls" screentip="Refresh" supertip="All the drop down items if a new folder is added." size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnMoveSenderFolder2" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnMoveRecipientFolder" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+        </group>
+        </tab>
+    </tabs>
+  </ribbon>
+</customUI>
