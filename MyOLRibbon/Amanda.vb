@@ -47,8 +47,6 @@ Public Class amanda
     'Create callback methods here. For more information about adding callback methods, visit https://go.microsoft.com/fwlink/?LinkID=271226
     Public Sub OnRibbonLoad(ByVal ribbonUI As Office.IRibbonUI)
         Me.ribbon = ribbonUI
-        stiPressed = False
-        tlsPressed = False
     End Sub
 
     Public Function GetSize(ByVal control As Office.IRibbonControl) As String
@@ -71,6 +69,14 @@ Public Class amanda
         prevYearDt = DateAdd("yyyy", -1, Now())
         prevYear = Format(prevYearDt, "yyyy")
         Select Case control.Id
+            Case Is = "btnMoveRecipientFolder"
+                MoveSentMailToRecipientFolder()
+            Case Is = "btnReDateFolders"
+                ReDateLocateFolders()
+            Case Is = "btnFixLocateResponseSubjects"
+                RenameLocateResponseSubjectLines()
+            Case Is = "btnFixLocateSubjects"
+                RenameLocateTktSubjectLines()
             Case Is = "btnSaveInvoice"
                 SaveInvoice_PDF()
             Case Is = "btnSaveTaskOrder"
@@ -100,7 +106,7 @@ Public Class amanda
             Case Is = "btnAccountFolders"
                 CreateAccountFolders()
             Case Is = "btnASmedley"
-                MoveToFolder("Folders", "TLS Employees\TUL\Amanda Kay Smedley")
+                MoveToFolder("Folders", "TLS Employees\Amanda K. Smedley")
             Case Is = "btnAddFolder"
                 AddNewFolder()
             Case Is = "btnInvalidate"
@@ -108,13 +114,13 @@ Public Class amanda
             Case Is = "btnMoveSenderFolder"
                 MoveToSenderFolder()
             Case Is = "btnASPayStubs"
-                MoveToFolder("Folders", "TLS Employees\TUL\Amanda Kay Smedley\PayStubs")
+                MoveToFolder("Folders", "TLS Employees\Amanda K. Smedley\PayStubs")
             Case Is = "btnASAccounts"
-                MoveToFolder("Folders", "TLS Employees\TUL\Amanda Kay Smedley\Accounts")
+                MoveToFolder("Folders", "TLS Employees\Amanda K. Smedley\Accounts")
             Case Is = "btnASNorth"
-                MoveToFolder("Folders", "TLS Employees\TUL\Amanda Kay Smedley\Northstar")
+                MoveToFolder("Folders", "TLS Employees\Amanda K. Smedley\Northstar")
             Case Is = "btnASGraphics"
-                MoveToFolder("Folders", "TLS Employees\TUL\Amanda Kay Smedley\Graphics")
+                MoveToFolder("Folders", "TLS Employees\Amanda K. Smedley\Graphics")
             Case Is = "btnMovePayroll"
                 CopyToFolder("Folders", "Payroll")
                 MoveToSenderFolder()
@@ -128,10 +134,10 @@ Public Class amanda
                 MoveToFolder("Folders", "Vendors\RK Black")
             Case Is = "btnSendNewestPhoneList"
                 SendContactList()
-            Case Is = "btnEmailHR"
-                SendEmail("tcarothers@tlsokc.com", "TLS2")
-            Case Is = "btnEmailDeduction"
-                SendDeductionEmail()
+            Case Is = "btnEmailNoOp"
+                SendNoOpEmail()
+            Case Is = "btnEmailTRDue"
+                SendTroubleReportsDue()
             Case Is = "btnRemovePrefixes"
                 RemoveSubjectPrefix()
             Case Is = "btnMovePRResponses"
@@ -150,7 +156,6 @@ Public Class amanda
             Case Else
                 MessageBox.Show("Error! No Action Found")
         End Select
-
     End Sub
     Public Function GetLabel(ByVal control As Office.IRibbonControl) As String
         Dim prevYearDt As DateTime
@@ -160,6 +165,8 @@ Public Class amanda
         curYear = Format(Now(), "yyyy")
         prevYear = Format(prevYearDt, "yyyy")
         Select Case control.Id
+            Case Is = "btnMoveRecipientFolder"
+                Return "Move 2 City Folder"
             Case Is = "btnSaveUSIC"
                 Return "Save USIC Response"
             Case Is = "btnArchiveTULTLS18"
@@ -457,28 +464,24 @@ Public Class amanda
     End Function
     Function GetItemCount(control As IRibbonControl) As Integer
         Select Case control.Id
+            Case "ddBSTArchiveFolders21"
+                Return GetFolder("\\Archive\Small Jobs\TUL\STI\2021").Folders.Count
+            Case "ddBArchiveFolders21"
+                Return GetFolder("\\Archive\Small Jobs\TUL\TLS\2021").Folders.Count
             Case "ddBrowse2QuoteFolders"
                 Return GetFolder("\\ASmedley@tlsokc.com\Folders\Small Jobs\Quotes - Pending").Folders.Count
-            Case "ddBrowse2ArkEmpFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\ARK").Folders.Count
-            Case "ddBrowse2OkcEmpFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\OKC").Folders.Count
-            Case "ddBrowse2TulEmpFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL").Folders.Count
             Case "ddBrowse2BArchiveFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2019").Folders.Count
+                Return GetFolder("\\Archive\Small Jobs\TUL\TLS\2022").Folders.Count
             Case "ddBrowse2BSTArchiveFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2019").Folders.Count
+                Return GetFolder("\\Archive\Small Jobs\TUL\STI\2022").Folders.Count
             Case "ddBSTArchiveFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2019").Folders.Count
+                Return GetFolder("\\Archive\Small Jobs\TUL\STI\2022").Folders.Count
             Case "ddBArchiveFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2019").Folders.Count
-            Case "ddBSTArchiveFolders20"
-                Return GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2020").Folders.Count
-            Case "ddBArchiveFolders20"
-                Return GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2020").Folders.Count
-            Case "ddASTFolders"
-                Return GetFolder("\\ASmedley@tlsokc.com\Folders\Small Jobs\ARK\STI").Folders.Count
+                Return GetFolder("\\Archive\Small Jobs\TUL\TLS\2022").Folders.Count
+            Case "ddBSTArchiveFolders22"
+                Return GetFolder("\\Archive\Small Jobs\TUL\STI\2022").Folders.Count
+            Case "ddBArchiveFolders22"
+                Return GetFolder("\\Archive\Small Jobs\TUL\TLS\2022").Folders.Count
             Case "ddQuoteFolders"
                 Return GetFolder("\\ASmedley@tlsokc.com\Folders\Small Jobs\Quotes - Pending").Folders.Count
             Case "ddVendorFolders"
@@ -494,45 +497,39 @@ Public Class amanda
             Case "ddNonConCity"
                 Return GetFolder("\\ASmedley@tlsokc.com\Folders\SignalTek\Cities\Non-Contract").Folders.Count
             Case Else
-                Return MessageBox.Show("Control doesn't exist")
+                Return MessageBox.Show("Control " & control.Id & " doesn't exist")
         End Select
 
     End Function
     Function GetItemLabel(control As IRibbonControl, index As Integer) As String
         Select Case control.Id
+            Case "ddBSTArchiveFolders21"
+                GetFolderArray_ArchiveBST2021()
+                Return myBST2021ArchiveArray(index)
+            Case "ddBArchiveFolders21"
+                GetFolderArray_ArchiveB2021()
+                Return myB2021ArchiveArray(index)
             Case "ddBrowse2QuoteFolders"
                 GetFolderArray_Quotes()
                 Return myQuoteFolderArray(index)
-            Case "ddBrowse2ArkEmpFolders"
-                GetFolderArray_ARKEmployees()
-                Return myARKEmployeesArray(index)
-            Case "ddBrowse2OkcEmpFolders"
-                GetFolderArray_OKCEmployees()
-                Return myOKCEmployeesArray(index)
-            Case "ddBrowse2TulEmpFolders"
-                GetFolderArray_TULEmployees()
-                Return myTULEmployeesArray(index)
             Case "ddBrowse2BArchiveFolders"
-                GetFolderArray_ArchiveB2019()
-                Return myB2019ArchiveArray(index)
+                GetFolderArray_ArchiveB2022()
+                Return myB2022ArchiveArray(index)
             Case "ddBrowse2BSTArchiveFolders"
-                GetFolderArray_ArchiveBST2019()
-                Return myBST2019ArchiveArray(index)
-            Case "ddBSTArchiveFolders"
-                GetFolderArray_ArchiveBST2019()
-                Return myBST2019ArchiveArray(index)
-            Case "ddBArchiveFolders"
-                GetFolderArray_ArchiveB2019()
-                Return myB2019ArchiveArray(index)
+                GetFolderArray_ArchiveBST2022()
+                Return myBST2022ArchiveArray(index)
+            Case "ddBSTArchiveFolders22"
+                GetFolderArray_ArchiveBST2022()
+                Return myBST2022ArchiveArray(index)
+            Case "ddBArchiveFolders22"
+                GetFolderArray_ArchiveB2022()
+                Return myB2022ArchiveArray(index)
             Case "ddBSTArchiveFolders20"
                 GetFolderArray_ArchiveBST2020()
                 Return myBST2020ArchiveArray(index)
             Case "ddBArchiveFolders20"
                 GetFolderArray_ArchiveB2020()
                 Return myB2020ArchiveArray(index)
-            Case "ddASTFolders"
-                GetFolderArray_ASTSJ()
-                Return myASTSmallJobsArray(index)
             Case "ddQuoteFolders"
                 GetFolderArray_Quotes()
                 Return myQuoteFolderArray(index)
@@ -555,7 +552,7 @@ Public Class amanda
                 GetFolderArray_NonContractCities()
                 Return myNonContractCitiesArray(index)
             Case Else
-                Return MessageBox.Show("Control doesn't exist")
+                Return MessageBox.Show("Control " & control.Id & " doesn't exist")
         End Select
 
 
@@ -567,95 +564,93 @@ Public Class amanda
             Case Else
                 Return "folder" & index
         End Select
-
     End Function
-    Sub DropDownAction(control As IRibbonControl, selectedId As String, selectedIndex As Integer)
+    Sub DropDownAction(control As IRibbonControl, selectedID As String, selectedIndex As Integer)
+        'Sub DropDownAction(control as IRibbonControl, selectedID As Integer, selectedIndex as Integer)
         Dim myFolder As String
-        Select Case control.Id
-            Case "ddBrowse2QuoteFolders"
-                myFolder = CStr("\\ASmedley@tlsokc.com\Folders\Small Jobs\Quotes - Pending\" & myQuoteFolderArray(selectedIndex))
-                Browse2Folder(myFolder)
-            Case "ddBrowse2ArkEmpFolders"
-                myFolder = CStr("\\ASmedley@tlsokc.com\Folders\TLS Employees\ARK\" & myARKEmployeesArray(selectedIndex))
-                Browse2Folder(myFolder)
-            Case "ddBrowse2OkcEmpFolders"
-                myFolder = CStr("\\ASmedley@tlsokc.com\Folders\TLS Employees\OKC\" & myOKCEmployeesArray(selectedIndex))
-                Browse2Folder(myFolder)
-            Case "ddBrowse2TulEmpFolders"
-                myFolder = CStr("\\ASmedley@tlsokc.com\TLS Employees\TUL\" & myTULEmployeesArray(selectedIndex))
-                Browse2Folder(myFolder)
-            Case "ddBrowse2BSTArchiveFolders"
-                myFolder = CStr("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2019\" & myBST2019ArchiveArray(selectedIndex))
-                Browse2Folder(myFolder)
-            Case "ddBrowse2BArchiveFolders"
-                myFolder = CStr("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2019\" & myB2019ArchiveArray(selectedIndex))
-                Browse2Folder(myFolder)
-            Case "ddBSTArchiveFolders"
-                myFolder = CStr("Small Jobs\Complete & Billed\TUL\STI\2019\" & myBST2019ArchiveArray(selectedIndex))
-                MoveToFolder("SJArchive", myFolder)
-            Case "ddBSTArchiveFolders20"
-                myFolder = CStr("Small Jobs\Complete & Billed\TUL\STI\2020\" & myBST2020ArchiveArray(selectedIndex))
-                MoveToFolder("SJArchive", myFolder)
-            Case "ddBArchiveFolders"
-                myFolder = CStr("Small Jobs\Complete & Billed\TUL\TLS\2019\" & myB2019ArchiveArray(selectedIndex))
-                MoveToFolder("SJArchive", myFolder)
-            Case "ddBArchiveFolders20"
-                myFolder = CStr("Small Jobs\Complete & Billed\TUL\TLS\2020\" & myB2020ArchiveArray(selectedIndex))
-                MoveToFolder("SJArchive", myFolder)
-            Case "ddASTFolders"
-                myFolder = CStr("Small Jobs\ARK\STI\" & myASTSmallJobsArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case "ddQuoteFolders"
-                myFolder = CStr("Small Jobs\Quotes - Pending\" & myQuoteFolderArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case "ddVendorFolders"
-                myFolder = CStr("Vendors\" & myVendorFolderArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case "ddSTIFolders"
-                myFolder = CStr("Small Jobs\TUL\STI\" & mySTISmallJobsArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case "ddTLSFolders"
-                myFolder = CStr("Small Jobs\TUL\TLS\" & myTLSSmallJobsArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case "ddJobFolders"
-                myFolder = CStr("Jobs\" & myJobFoldersArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case "ddConCity"
-                myFolder = CStr("SignalTek\Cities\Contract\" & myContractCitiesArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case "ddNonConCity"
-                myFolder = CStr("SignalTek\Cities\Non-Contract\" & myNonContractCitiesArray(selectedIndex))
-                MoveToFolder("Folders", myFolder)
-            Case Else
-                MessageBox.Show("Control doesn't exist")
-        End Select
+        Try
+            Select Case control.Id
+                Case "ddBSTArchiveFolders21"
+                    myFolder = CStr("Small Jobs\TUL\STI\2021\" & myBST2021ArchiveArray(selectedIndex))
+                    MoveToFolder("SJArchive", myFolder)
+                Case "ddBArchiveFolders21"
+                    myFolder = CStr("Small Jobs\TUL\TLS\2021\" & myB2021ArchiveArray(selectedIndex))
+                    MoveToFolder("SJArchive", myFolder)
+                Case "ddBrowse2QuoteFolders"
+                    myFolder = CStr("\\ASmedley@tlsokc.com\Folders\Small Jobs\Quotes - Pending\" & myQuoteFolderArray(selectedIndex))
+                    Browse2Folder(myFolder)
+                Case "ddBrowse2BSTArchiveFolders"
+                    myFolder = CStr("\\Archive\Small Jobs\TUL\STI\2022\" & myBST2019ArchiveArray(selectedIndex))
+                    Browse2Folder(myFolder)
+                Case "ddBrowse2BArchiveFolders"
+                    myFolder = CStr("\\Archive\Small Jobs\TUL\TLS\2022\" & myB2019ArchiveArray(selectedIndex))
+                    Browse2Folder(myFolder)
+                Case "ddBSTArchiveFolders"
+                    myFolder = CStr("Small Jobs\TUL\STI\2022\" & myBST2019ArchiveArray(selectedIndex))
+                    MoveToFolder("SJArchive", myFolder)
+                Case "ddBSTArchiveFolders22"
+                    myFolder = CStr("Small Jobs\TUL\STI\2022\" & myBST2020ArchiveArray(selectedIndex))
+                    MoveToFolder("SJArchive", myFolder)
+                Case "ddBArchiveFolders"
+                    myFolder = CStr("Small Jobs\TUL\TLS\2022\" & myB2019ArchiveArray(selectedIndex))
+                    MoveToFolder("SJArchive", myFolder)
+                Case "ddBArchiveFolders22"
+                    myFolder = CStr("Small Jobs\TUL\TLS\2022\" & myB2020ArchiveArray(selectedIndex))
+                    MoveToFolder("SJArchive", myFolder)
+                Case "ddQuoteFolders"
+                    myFolder = CStr("Small Jobs\Quotes - Pending\" & myQuoteFolderArray(selectedIndex))
+                    MoveToFolder("Folders", myFolder)
+                Case "ddVendorFolders"
+                    myFolder = CStr("Vendors\" & myVendorFolderArray(selectedIndex))
+                    MoveToFolder("Folders", myFolder)
+                Case "ddSTIFolders"
+                    myFolder = CStr("Small Jobs\TUL\STI\" & mySTISmallJobsArray(selectedIndex))
+                    MoveToFolder("Folders", myFolder)
+                Case "ddTLSFolders"
+                    myFolder = CStr("Small Jobs\TUL\TLS\" & myTLSSmallJobsArray(selectedIndex))
+                    MoveToFolder("Folders", myFolder)
+                Case "ddJobFolders"
+                    myFolder = CStr("Jobs\" & myJobFoldersArray(selectedIndex))
+                    MoveToFolder("Folders", myFolder)
+                Case "ddConCity"
+                    myFolder = CStr("SignalTek\Cities\Contract\" & myContractCitiesArray(selectedIndex))
+                    MoveToFolder("Folders", myFolder)
+                Case "ddNonConCity"
+                    myFolder = CStr("SignalTek\Cities\Non-Contract\" & myNonContractCitiesArray(selectedIndex))
+                    MoveToFolder("Folders", myFolder)
+                Case Else
+                    MessageBox.Show("Control " & control.Id & " doesn't exist")
+            End Select
+        Catch ex As System.Exception
+            MessageBox.Show("Error on Drop Down Action: " & ex.Message)
+        End Try
         ribbon.InvalidateControl(control.Id)
     End Sub
 
-    Public Sub tgl_OnAction(ByVal control As Office.IRibbonControl, ByRef pressed As Boolean)
-        Select Case control.Id
-            Case "tglSTI"
-                stiPressed = True
-                tlsPressed = False
-                myToggleCompany = "STI"
-            Case "tglTLS"
-                stiPressed = False
-                tlsPressed = True
-                myToggleCompany = "TLS"
-        End Select
-    End Sub
-    Public Sub GetPressedToggle(ByVal control As Office.IRibbonControl, ByRef val As VariantType)
-        Select Case control.Id
-            Case "tglSTI"
-                val = stiPressed
-            Case "tglTLS"
-                val = tlsPressed
-            Case Else
-                MessageBox.Show("Error, no toggle button pressed.")
-                val = ""
-                Exit Sub
-        End Select
-    End Sub
+    'Public Sub tgl_OnAction(ByVal control As Office.IRibbonControl, ByRef pressed As Boolean)
+    ' Select Case control.Id
+    ' Case "tglSTI"
+    '             stiPressed = True
+    '             tlsPressed = False
+    '             myToggleCompany = "STI"
+    'Case "tglTLS"
+    '             stiPressed = False
+    '            tlsPressed = True
+    '            myToggleCompany = "TLS"
+    ' End Select
+    ' End Sub
+    'Public Sub GetPressedToggle(ByVal control As Office.IRibbonControl, ByRef val As VariantType)
+    ' Select Case control.Id
+    ' Case "tglSTI"
+    '             val = stiPressed
+    ' Case "tglTLS"
+    '             val = tlsPressed
+    ' Case Else
+    '             MessageBox.Show("Error, no toggle button pressed.")
+    '             val = ""
+    ' Exit Sub
+    ' End Select
+    ' End Sub
 
     Public Function GetEditBoxText(ByVal control As Office.IRibbonControl) As String
         Select Case control.Id
@@ -674,8 +669,8 @@ Public Class amanda
             Case Else
                 myJobNumberText = "Nothing"
         End Select
-        Console.Write("myJobNumberText=" & myJobNumberText)
-        Console.Write("midJobNumText=" & Mid(myJobNumberText, 1, 4))
+        Debug.WriteLine("myJobNumberText=" & myJobNumberText)
+        Debug.WriteLine("midJobNumText=" & Mid(myJobNumberText, 1, 4))
     End Sub
 #End Region
 
@@ -691,8 +686,12 @@ Public Class amanda
     Public myNonContractCitiesArray As String()
     Public myBST2019ArchiveArray As String()
     Public myBST2020ArchiveArray As String()
+    Public myBST2021ArchiveArray As String()
+    Public myBST2022ArchiveArray As String()
     Public myB2019ArchiveArray As String()
     Public myB2020ArchiveArray As String()
+    Public myB2021ArchiveArray As String()
+    Public myB2022ArchiveArray As String()
     Public myARKEmployeesArray As String()
     Public myTULEmployeesArray As String()
     Public myOKCEmployeesArray As String()
@@ -701,8 +700,13 @@ Public Class amanda
     Public senderFolder As String
     Public myTicketNumber As String
     Public myMemberCode As String
+    Public myJobNumber As String
+    Public mySJNumber As String
     Public memCodeRegExPattern As String
     Public tktNumRegExPattern As String
+    Public STISmallJobRegExPattern As String = "2(\d{2})(9)(\d{2})"
+    Public TLSSmallJobRegExPattern As String = "2(\d{2})(7)(\d{2})"
+    Public JobNumRegExPattern As String = "2(\d{5})"
     Public Const defaultStatus As String = "Processing..."
     Public Shared isCancelled As Boolean
     Public Shared strStatus As String
@@ -855,6 +859,7 @@ Public Class amanda
         myVendorFolderArray = myFolders.ToArray()
         'myVendorFolderArray = myFolders
         Return True
+        Debug.WriteLine("Vendor Folder array Returns True")
     End Function
     Public Function GetFolderArray_STISJ() As Boolean
         Dim oOut As Outlook.Application
@@ -942,6 +947,7 @@ Public Class amanda
         myTLSSmallJobsArray = myFolders.ToArray()
         'myTLSSmallJobsArray = myFolders
         Return True
+        Debug.WriteLine("Folder array Returns True")
     End Function
     Public Function GetFolderArray_Jobs() As Boolean
         Dim oOut As Outlook.Application
@@ -970,7 +976,7 @@ Public Class amanda
         myJobFoldersArray = myFolders.ToArray()
         Return True
     End Function
-    Public Function GetFolderArray_ArchiveBST2019() As Boolean
+    Public Function GetFolderArray_ArchiveBST2022() As Boolean
         Dim oOut As Outlook.Application
         Dim oNS As Outlook.NameSpace
         Dim oFolder As Outlook.MAPIFolder
@@ -981,7 +987,7 @@ Public Class amanda
         On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
-        oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2019")
+        oFolder = GetFolder("\\Archive\Small Jobs\TUL\STI\2022")
         If oFolder Is Nothing Then
             Return False
             MessageBox.Show("oFolder was Nothing")
@@ -994,7 +1000,7 @@ Public Class amanda
             myFolders.Add(Folder.Name)
         Next
         myFolders.Sort()
-        myBST2019ArchiveArray = myFolders.ToArray()
+        myBST2022ArchiveArray = myFolders.ToArray()
         Return True
     End Function
     Public Function GetFolderArray_ArchiveBST2020() As Boolean
@@ -1008,7 +1014,7 @@ Public Class amanda
         On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
-        oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\2020")
+        oFolder = GetFolder("\\Archive\Small Jobs\TUL\STI\2020")
         If oFolder Is Nothing Then
             Return False
             MessageBox.Show("oFolder was Nothing")
@@ -1024,7 +1030,8 @@ Public Class amanda
         myBST2020ArchiveArray = myFolders.ToArray()
         Return True
     End Function
-    Public Function GetFolderArray_ArchiveB2019() As Boolean
+
+    Public Function GetFolderArray_ArchiveBST2021() As Boolean
         Dim oOut As Outlook.Application
         Dim oNS As Outlook.NameSpace
         Dim oFolder As Outlook.MAPIFolder
@@ -1035,7 +1042,7 @@ Public Class amanda
         On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
-        oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2019")
+        oFolder = GetFolder("\\Archive\Small Jobs\TUL\STI\2021")
         If oFolder Is Nothing Then
             Return False
             MessageBox.Show("oFolder was Nothing")
@@ -1048,7 +1055,34 @@ Public Class amanda
             myFolders.Add(Folder.Name)
         Next
         myFolders.Sort()
-        myB2019ArchiveArray = myFolders.ToArray()
+        myBST2021ArchiveArray = myFolders.ToArray()
+        Return True
+    End Function
+    Public Function GetFolderArray_ArchiveB2022() As Boolean
+        Dim oOut As Outlook.Application
+        Dim oNS As Outlook.NameSpace
+        Dim oFolder As Outlook.MAPIFolder
+        Dim subFolders As Object
+        Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
+        oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
+        If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
+        oNS = oOut.GetNamespace("MAPI")
+        oFolder = GetFolder("\\Archive\Small Jobs\TUL\TLS\2022")
+        If oFolder Is Nothing Then
+            Return False
+            MessageBox.Show("oFolder was Nothing")
+            Exit Function
+        Else
+        End If
+        subFolders = oFolder.Folders
+        Dim myFolders As New List(Of String)()
+        For Each Folder In subFolders
+            myFolders.Add(Folder.Name)
+        Next
+        myFolders.Sort()
+        myB2022ArchiveArray = myFolders.ToArray()
         Return True
     End Function
     Public Function GetFolderArray_ArchiveB2020() As Boolean
@@ -1062,7 +1096,7 @@ Public Class amanda
         On Error GoTo 0
         If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
         oNS = oOut.GetNamespace("MAPI")
-        oFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\2020")
+        oFolder = GetFolder("\\Archive\Small Jobs\TUL\TLS\2020")
         If oFolder Is Nothing Then
             Return False
             MessageBox.Show("oFolder was Nothing")
@@ -1076,6 +1110,33 @@ Public Class amanda
         Next
         myFolders.Sort()
         myB2020ArchiveArray = myFolders.ToArray()
+        Return True
+    End Function
+    Public Function GetFolderArray_ArchiveB2021() As Boolean
+        Dim oOut As Outlook.Application
+        Dim oNS As Outlook.NameSpace
+        Dim oFolder As Outlook.MAPIFolder
+        Dim subFolders As Object
+        Dim Folder As Outlook.MAPIFolder
+        On Error Resume Next
+        oOut = GetObject(, "Outlook.Application")
+        On Error GoTo 0
+        If oOut Is Nothing Then oOut = CreateObject("Outlook.Application")
+        oNS = oOut.GetNamespace("MAPI")
+        oFolder = GetFolder("\\Archive\Small Jobs\TUL\TLS\2021")
+        If oFolder Is Nothing Then
+            Return False
+            MessageBox.Show("oFolder was Nothing")
+            Exit Function
+        Else
+        End If
+        subFolders = oFolder.Folders
+        Dim myFolders As New List(Of String)()
+        For Each Folder In subFolders
+            myFolders.Add(Folder.Name)
+        Next
+        myFolders.Sort()
+        myB2021ArchiveArray = myFolders.ToArray()
         Return True
     End Function
     Public Function GetFolderArray_ContractCities() As Boolean
@@ -1213,233 +1274,441 @@ Public Class amanda
         myOKCEmployeesArray = myFolders.ToArray()
         Return True
     End Function
-    Public Function GetSenderFolder(ByVal senderName As String) As Boolean
+    Public Function GetSenderFolder(ByVal senderName As String, ByVal senderEmail As String) As Boolean
         Dim strFolder As String
         Dim arkPath As String
         Dim tulPath As String
         Dim okcPath As String
-        arkPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\ARK\"
-        tulPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL\"
-        okcPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\OKC\"
+        Dim empPath As String
+        empPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\" & senderName
+        arkPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\"
+        tulPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\"
+        okcPath = "\\ASmedley@tlsokc.com\Folders\TLS Employees\"
+        Debug.Write(senderName & vbNewLine)
+        Debug.Write(senderEmail & vbNewLine)
+
+        If StrConv(senderEmail, vbUpperCase) Like "*@TLSOKC.COM" Or StrConv(senderEmail, vbUpperCase) Like "*EXCHANGE*" Then
+            On Error GoTo FindByName
+            If senderName = "Human Resources" Then
+                strFolder = "\\ASmedley@tlsokc.com\Folders\HR"
+            Else
+                strFolder = empPath
+            End If
+            GoTo FinishUp
+        Else
+            GoTo FindByName
+        End If
+FindByName:
+        On Error GoTo 0
         Select Case senderName
-            Case Is = "Alejandra Ochoa"
-                strFolder = tulPath & "Alejandra Ochoa"
-            Case Is = "Sebastian Castaneda"
-                strFolder = okcPath & "Sebastian Castaneda"
-            Case Is = "Juli Aguiniga"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Gades Sales"
-            Case Is = "Nicholas Carpenter"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Trevor Turner"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "R.K. Black, Inc. Help Desk"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "R.K. Black Help Desk"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Brooke Wincapaw"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "itservices@rkblack.com"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "tls.ricoh@gmail.com"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Heath Hendrix"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "RK Black Help Desk"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Justin Bloomfield"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "RK Black, Inc. Help Desk"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Robert Taylor"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Kelley Deardeuff"
-                strFolder = okcPath & "Kelley Deardeuff"
-            Case Is = "Josh Fisher"
-                strFolder = tulPath & "Josh Fisher"
-            Case Is = "Bobby Austin"
-                strFolder = tulPath & "Bobby Austin"
-            Case Is = "Todd Gowen"
-                strFolder = tulPath & "Todd Gowen"
-            Case Is = "Justin Bloomfield"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
-            Case Is = "Justin Dorsey"
-                strFolder = tulPath & "Justin Dorsey"
-            Case Is = "tcarothers@tlsokc.com"
-                strFolder = okcPath & "Tonya Carothers"
-            Case Is = "Human Resources"
-                strFolder = okcPath & "Tonya Carothers"
-            Case Is = "Abisai Hernandez"
+                Case Is = "Human Resources"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\HR"
+                Case Is = "Verizon"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Verizon"
+                Case Is = "Verizon Wireless"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Verizon"
+                Case Is = "Luis Hernandez"
+                    strFolder = tulPath & "Luis Hernandez"
+                Case Is = "Tina Strickland"
+                    strFolder = tulPath & "Tina Strickland"
+                Case Is = "Renae Hendricks"
+                    strFolder = arkPath & "Renae Hendricks"
+                Case Is = "Lawson Miracle"
+                    strFolder = tulPath & "Lawson Miracle"
+                Case Is = "Wesley Matlock"
+                    strFolder = okcPath & "Wesley Matlock"
+                Case Is = "Jordan Meritt"
+                    strFolder = okcPath & "Jordan Meritt"
+                Case Is = "Richard Boyer"
+                    strFolder = tulPath & "Richard Boyer"
+                Case Is = "Rosendo Arrazola"
+                    strFolder = tulPath & "Rosendo Arrazola"
+                Case Is = "Casey Sharp"
+                    strFolder = okcPath & "Casey Sharp"
+                Case Is = "Kelley Deardeuff"
+                    strFolder = okcPath & "Kelley Deardeuff"
+                Case Is = "Todd Gowen"
+                    strFolder = tulPath & "Todd Gowen"
+                Case Is = "Justin Bloomfield"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\RK Black"
+                Case Is = "Justin Dorsey"
+                    strFolder = tulPath & "Justin Dorsey"
+                Case Is = "tcarothers@tlsokc.com"
+                    strFolder = okcPath & "Tonya Carothers"
+                Case Is = "Human Resources"
+                    strFolder = okcPath & "Tonya Carothers"
+                Case Is = "Abisai Hernandez"
                 strFolder = okcPath & "Abisai Hernandez"
-            Case Is = "Target"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Target"
-            Case Is = "Terry Krajicek"
-                strFolder = tulPath & "Terry Krajicek"
-            Case Is = "Smedley, Oakie D"
-                strFolder = tulPath & "Amanda Kay Smedley"
-            Case Is = "Becky Smedley"
-                strFolder = tulPath & "Amanda Kay Smedley"
-            Case Is = "Amanda Smedley"
-                strFolder = tulPath & "Amanda Kay Smedley"
-            Case Is = "Amanda K. Smedley"
-                strFolder = tulPath & "Amanda Kay Smedley"
-            Case Is = "Amanda Kay Smedley"
-                strFolder = tulPath & "Amanda Kay Smedley"
-            Case Is = "asmedley@tlsokc.com"
-                strFolder = tulPath & "Amanda Kay Smedley"
-            Case Is = "Antonio Gonzalez"
-                strFolder = tulPath & "Mechanics\Antonio Gonzalez"
-            Case Is = "Lea Ann Forbes"
-                strFolder = tulPath & "Lea Ann Forbes"
-            Case Is = "Gary Forbes"
-                strFolder = tulPath & "Gary Forbes"
-            Case Is = "Taylor Butler"
-                strFolder = tulPath & "Taylor Butler"
-            Case Is = "Dusty Scott"
-                strFolder = okcPath & "Dusty Scott"
-            Case Is = "Josh Hartley"
-                strFolder = okcPath & "Josh Hartley"
-            Case Is = "Terry Bond"
-                strFolder = okcPath & "Terry Bond"
-            Case Is = "Derrill West"
-                strFolder = tulPath & "Derrill West"
-            Case Is = "Justin Mudge"
-                strFolder = tulPath & "Mechanics\Justin Mudge"
-            Case Is = "Stephen Strode"
-                strFolder = tulPath & "Mechanics\Stephen Strode"
-            Case Is = "Sam Cruz"
-                strFolder = tulPath & "Mechanics\Sam Cruz"
-            Case Is = "Anthony Littlefield"
-                strFolder = tulPath & "Mechanics\Anthony Littlefield"
-            Case Is = "Jett Mudge"
-                strFolder = tulPath & "Mechanics\Jett Mudge"
-            Case Is = "Guillermo Cortes"
-                strFolder = tulPath & "Guillermo Cortes"
-            Case Is = "Celerino Del Valle"
-                strFolder = tulPath & "Celerino Del Valle"
-            Case Is = "Wayne Kennedy"
-                strFolder = tulPath & "Wayne Kennedy"
-            Case Is = "Brandon Parker"
-                strFolder = tulPath & "Brandon Parker"
-            Case Is = "Cavin Coffelt"
-                strFolder = tulPath & "Cavin Coffelt"
-            Case Is = "Erika French"
-                strFolder = tulPath & "Mechanics\Erika French"
-            Case Is = "Luis Delgado"
-                strFolder = tulPath & "Luis Delgado"
-            Case Is = "John Fissel"
-                strFolder = tulPath & "John Fissel"
-            Case Is = "Clint Foreman"
-                strFolder = tulPath & "Clint Foreman"
-            Case Is = "Mario Gonzalez"
-                strFolder = tulPath & "Mario Gonzalez"
-            Case Is = "Robert Kent"
-                strFolder = tulPath & "Robert Kent"
-            Case Is = "Mike McCall"
-                strFolder = tulPath & "Mike McCall"
-            Case Is = "Raymond Ashlock"
-                strFolder = tulPath & "Raymond Ashlock"
-            Case Is = "Nathan VanDalsem"
-                strFolder = tulPath & "Mechanics\Nathan VanDalsem"
             Case Is = "Larry Butler"
                 strFolder = okcPath & "Larry Butler"
-            Case Is = "Willie Touchette"
-                strFolder = okcPath & "Larry Touchette"
-            Case Is = "Tonya Carothers"
-                strFolder = okcPath & "Tonya Carothers"
-            Case Is = "Walter Floyd"
-                strFolder = okcPath & "Walter Floyd"
-            Case Is = "Cathy J. Willis"
-                strFolder = okcPath & "Cathy J Willis"
-            Case Is = "David Willis"
-                strFolder = okcPath & "David Willis"
-            Case Is = "Matthew Creps"
-                strFolder = okcPath & "Matt Creps"
-            Case Is = "Tracy Willis"
-                strFolder = okcPath & "Tracy Willis"
-            Case Is = "Joquita Butler"
-                strFolder = okcPath & "Joquita Butler"
-            Case Is = "Jay Williams"
-                strFolder = okcPath & "Jay Williams"
-            Case Is = "Charlie Butler"
-                strFolder = okcPath & "Charlie Butler"
-            Case Is = "James McGinley"
-                strFolder = okcPath & "James McGinley"
-            Case Is = "lwillis@tlsokc.com"
-                strFolder = okcPath & "Loren Willis"
-            Case Is = "Robert Lott"
-                strFolder = okcPath & "Robert Lott"
-            Case Is = "Red Chambers"
-                strFolder = okcPath & "Red Chambers"
-            Case Is = "Osman Tavilson"
-                strFolder = okcPath & "Osman Tavilson"
-            Case Is = "Bill Byers"
-                strFolder = arkPath & "Bill H Byers"
-            Case Is = "Bill Conroy"
-                strFolder = arkPath & "Bill Conroy"
-            Case Is = "Renae Findley"
-                strFolder = arkPath & "Renae Findley"
-            Case Is = "Dennis Gill"
-                strFolder = arkPath & "Dennis Gill"
-            Case Is = "Shawn Mockeridge"
-                strFolder = arkPath & "Shawn Mockeridge"
-            Case Is = "Loren Willis"
-                strFolder = okcPath & "Loren Willis"
-            Case Is = "ATSI Service Dept"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\ATSI"
-            Case Is = "mec"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\DPS"
-            Case Is = "noreply@dps.ok.gov"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\DPS"
-            Case Is = "ProofPoint Essentials"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Support\Barracuda Spam Emails"
-            Case Is = "lb53@sbcglobal.net"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\L-Tronics - Larry Brown"
-            Case Is = "Rodriguez, Rocio - HOU"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Peek Traffic - Oriux"
-            Case Is = "Shah, Bobby - HOU"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Peek Traffic - Oriux"
-            Case Is = "Mpinkley"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pinkley"
-            Case Is = "Lisa Pinkley"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pinkley"
-            Case Is = "Do Not Reply"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
-            Case Is = "Econolite"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
-            Case Is = "Steve Wampler"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
-            Case Is = "Repairs Mailbox"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
-            Case Is = "Pizza Hut"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pizza Hut"
-            Case Is = "Pizza Hut Rewards"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pizza Hut"
-            Case Is = "IHG Rewards Club eStatement"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Hotels & Reservations"
-            Case Is = "Landon Smith"
-                strFolder = okcPath & "Landon Smith"
-            Case Is = "NoReplySCL1", "NoReplySCL2", "NoReplySCL3"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Locates\Responses"
-            Case Is = "Amazon Business"
-                strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Amazon"
-            Case Else
-                strFolder = "\\ASmedley@tlsokc.com\Inbox"
-        End Select
+            Case Is = "Target"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Target"
+                Case Is = "Terry Krajicek"
+                    strFolder = tulPath & "Terry Krajicek"
+                Case Is = "Smedley, Oakie D"
+                    strFolder = tulPath & "Amanda K. Smedley"
+                Case Is = "Becky Smedley"
+                    strFolder = tulPath & "Amanda K. Smedley"
+                Case Is = "Amanda K Smedley"
+                    strFolder = tulPath & "Amanda K. Smedley"
+                Case Is = "Amanda Smedley"
+                    strFolder = tulPath & "Amanda K. Smedley"
+                Case Is = "Amanda K. Smedley"
+                    strFolder = tulPath & "Amanda K. Smedley"
+                Case Is = "Amanda Kay Smedley"
+                strFolder = tulPath & "Amanda K. Smedley"
+            Case Is = "lbutler@tlsokc.com"
+                strFolder = okcPath & "Larry Butler"
+            Case Is = "asmedley@tlsokc.com"
+                    strFolder = tulPath & "Amanda K. Smedley"
+                Case Is = "Celerino Del Valle"
+                    strFolder = tulPath & "Celerino Del Valle"
+                Case Is = "Joaquin Delgado"
+                    strFolder = tulPath & "Luis Delgado"
+                Case Is = "Willie Touchette"
+                    strFolder = okcPath & "Larry Touchette"
+                Case Is = "Tonya Carothers"
+                    strFolder = okcPath & "Tonya Carothers"
+                Case Is = "lwillis@tlsokc.com"
+                    strFolder = okcPath & "Loren Willis"
+                Case Is = "ATSI Service Dept"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\ATSI"
+                Case Is = "mec"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\DPS"
+                Case Is = "noreply@dps.ok.gov"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\DPS"
+                Case Is = "Proofpoint Essentials"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Support\Barracuda Spam Emails"
+                Case Is = "lb53@sbcglobal.net"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\L-Tronics - Larry Brown"
+                Case Is = "Rodriguez, Rocio - HOU"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Peek Traffic - Oriux"
+                Case Is = "Shah, Bobby - HOU"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Peek Traffic - Oriux"
+                Case Is = "Mpinkley"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pinkley"
+                Case Is = "Lisa Pinkley"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pinkley"
+                Case Is = "Do Not Reply"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
+                Case Is = "Econolite"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
+                Case Is = "Steve Wampler"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
+                Case Is = "Repairs Mailbox"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Econolite"
+                Case Is = "Pizza Hut"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pizza Hut"
+                Case Is = "Pizza Hut Rewards"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Pizza Hut"
+                Case Is = "IHG Rewards Club eStatement"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Hotels & Reservations"
+                Case Is = "Landon Smith"
+                    strFolder = okcPath & "Landon Smith"
+                Case Is = "NoReplySCL1", "NoReplySCL2", "NoReplySCL3"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Locates\Responses"
+                Case Is = "Amazon Business"
+                    strFolder = "\\ASmedley@tlsokc.com\Folders\Vendors\Amazon"
+                Case Else
+                    strFolder = "\\ASmedley@tlsokc.com\Inbox"
+            End Select
+FinishUp:
+        On Error GoTo 0
         If strFolder = "\\ASmedley@tlsokc.com\Inbox" Then
-            MessageBox.Show("Folder does not exist for sender " & senderName & ".")
+            MessageBox.Show("Folder does not exist for sender " & senderName & " or email " & senderEmail & ".")
             senderFolder = strFolder
-            Return False
-        Else
-            senderFolder = strFolder
-            Return True
-        End If
+                Return False
+            Else
+                senderFolder = strFolder
+                Return True
+            End If
     End Function
+
+    Public Sub MoveSentMailToRecipientFolder()
+        Dim xOl As Outlook.Application
+        Dim NS As Outlook.NameSpace
+        Dim MoveToFolder As Outlook.MAPIFolder
+        Dim objItem As Object
+        Dim nonconPath As String
+        Dim conPath As String
+        Dim ncARKPath As String
+        Dim ncOKCPath As String
+        Dim ncTULPath As String
+        Dim cARKPath As String
+        Dim cOKCPath As String
+        Dim cTULPath As String
+        Dim objForward As Outlook.MailItem
+        Dim oRecipients As Outlook.Recipients
+        Dim oRecipient As String
+
+        nonconPath = "\\ASmedley@tlsokc.com\Folders\SignalTek\Cities\Non-Contract\"
+        conPath = "\\ASmedley@tlsokc.com\Folders\SignalTek\Cities\Contract\"
+        ncARKPath = nonconPath & "ARK - "
+        ncOKCPath = nonconPath & "OKC - "
+        ncTULPath = nonconPath & "TUL - "
+        cARKPath = conPath & "ARK - "
+        cOKCPath = conPath & "OKC - "
+        cTULPath = conPath & "TUL - "
+
+        xOl = GetObject(, "Outlook.Application")
+        If xOl Is Nothing Then
+            xOl = CreateObject("Outlook.Application")
+        End If
+        On Error GoTo 0
+        NS = xOl.GetNamespace("MAPI")
+
+        If xOl.ActiveExplorer.Selection.Count = 0 Then
+            MessageBox.Show("No item selected.")
+        End If
+        On Error Resume Next
+        For Each objItem In xOl.ActiveExplorer.Selection
+
+            oRecipients = objItem.Recipients
+            For i = oRecipients.Count To 1 Step -1
+                oRecipient = oRecipients.Item(i).Address
+                If oRecipient Like "*@cityofalma.org" Then
+                    MoveToFolder = GetFolder(ncARKPath & "Alma, City of")
+                ElseIf oRecipient Like "*@barlingar.org" Then
+                    MoveToFolder = GetFolder(cARKPath & "Barling, City of")
+                ElseIf oRecipient Like "*@bellavistaar.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Bella Vista, City of")
+                ElseIf oRecipient Like "*@bentoncountyar.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Benton County")
+                ElseIf oRecipient Like "*@berryville.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Berryville, City of")
+                ElseIf oRecipient Like "*@cavespringsar.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Cave Springs")
+                ElseIf oRecipient Like "*@centertonar.us" Then
+                    MoveToFolder = GetFolder(cARKPath & "Centerton, City of")
+                ElseIf oRecipient Like "*@crawford-county.org" Then
+                    MoveToFolder = GetFolder(cARKPath & "Crawford County")
+                ElseIf oRecipient Like "*@cityofdequeen.com" Then
+                    MoveToFolder = GetFolder(ncARKPath & "De Queen, City of")
+                ElseIf oRecipient Like "*@elkins.arkansas.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Elkins, City of")
+                ElseIf oRecipient Like "*@cityoffarmington-ar.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Farmington, City of")
+                ElseIf oRecipient Like "*@cityofgentry.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Gentry, City of")
+                ElseIf oRecipient Like "*@greenforestar.net" Then
+                    MoveToFolder = GetFolder(ncARKPath & "Green Forest, City of")
+                ElseIf oRecipient Like "*@greenland-ar.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Greenland, City of")
+                ElseIf oRecipient = "gotreceipts@gmail.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Johnson, City of")
+                ElseIf oRecipient = "*lavcity@pinncom.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Lavaca, City of")
+                ElseIf oRecipient Like "*@lrcounty.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Little River County")
+                ElseIf oRecipient Like "*@lowellarkansas.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Lowell, City of")
+                ElseIf oRecipient Like "*@malvernar.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Malvern, City of")
+                ElseIf oRecipient = "cgibbs77@gmail.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Mena, City of")
+                ElseIf oRecipient = "bkmckee@sbcglobal.net" Then
+                    MoveToFolder = GetFolder(cARKPath & "Mena, City of")
+                ElseIf objItem.subject Like "*Fax To 1(479) 394-5411*" Then
+                    MoveToFolder = GetFolder(cARKPath & "Mena, City of")
+                ElseIf oRecipient = "megandennis@suddenlinkmail.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Morrilton, City of")
+                ElseIf oRecipient Like "*@paris-ar.net" Then
+                    MoveToFolder = GetFolder(cARKPath & "Paris, City of")
+                ElseIf oRecipient = "francityhall@yahoo.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Pottsville, City of")
+                ElseIf oRecipient Like "*@pgtc.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "Prairie Grove, City of")
+                ElseIf oRecipient Like "*@co.sebastian.ar.us" Then
+                    MoveToFolder = GetFolder(cARKPath & "Sebastian County")
+                ElseIf oRecipient = "townofspiro@sbcglobal.net" Then
+                    MoveToFolder = GetFolder(cARKPath & "Spiro, Town of")
+                ElseIf oRecipient Like "*@tontitownar.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Tontitown, City of")
+                ElseIf oRecipient = "reginaoliver@cebridge.net" Then
+                    MoveToFolder = GetFolder(cARKPath & "Waldron, City of")
+                ElseIf oRecipient Like "*@washingtoncountyar.gov" Then
+                    MoveToFolder = GetFolder(cARKPath & "Washington County")
+                ElseIf oRecipient Like "*@co.washington.ar.us" Then
+                    MoveToFolder = GetFolder(cARKPath & "Washington County")
+                ElseIf oRecipient = "townofwestsiloam@cox-internet.com" Then
+                    MoveToFolder = GetFolder(cARKPath & "West Siloam Springs")
+                ElseIf oRecipient Like "*@westsiloamsprings.org" Then
+                    MoveToFolder = GetFolder(cARKPath & "West Siloam Springs")
+                ElseIf oRecipient Like "*@ardmorecity.org" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Ardmore, City of")
+                ElseIf oRecipient Like "*@banner.k12.ok.us" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Banner Public Schools")
+                ElseIf oRecipient Like "*@bethanyok.org" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Bethany, City of")
+                ElseIf oRecipient Like "*@blackwellok.org" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Blackwell, City of")
+                ElseIf oRecipient Like "*@caleraok.org" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Calera, City of")
+                ElseIf oRecipient = "okdovercc@pldi.net" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Dover, Town of")
+                ElseIf oRecipient Like "*@frederickok.org" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Frederick, City of")
+                ElseIf oRecipient = "fredelec@pldi.net" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Frederick, City of")
+                ElseIf oRecipient = "hennesseyap@pldi.net" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Hennessey, City of")
+                ElseIf oRecipient = "townoflaverneclerk@gmail.com" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Laverne, Town of")
+                ElseIf oRecipient = "tolgrandandcodeofficer@gmail.com" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Laverne, Town of")
+                ElseIf oRecipient Like "*@ci.lindsay.ok.us" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Lindsay, City of")
+                ElseIf oRecipient Like "*@cityofmadill.com" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Madill, City of")
+                ElseIf oRecipient Like "*@cityofmarlow.com" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Marlow, City of")
+                ElseIf oRecipient Like "*@cityofperkins.net" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Perkins, City of")
+                ElseIf oRecipient Like "*@purcell.ok.gov" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Purcell, City of")
+                ElseIf oRecipient Like "*@cityofwoodward.com" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Woodward, City of")
+                ElseIf oRecipient Like "*@cityofyukonok.gov" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Yukon, City of")
+                ElseIf oRecipient Like "*@yukonok.gov" Then
+                    MoveToFolder = GetFolder(cOKCPath & "Yukon, City Of")
+                ElseIf oRecipient = "cityofantlers2@gmail.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Antlers, City of")
+                ElseIf oRecipient = "jarvis.nabors@yahoo.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Antlers, City of")
+                ElseIf oRecipient Like "*@atokaok.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Atoka, City of")
+                ElseIf oRecipient = "rita.moorecityofbigcabin@gmail.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Big Cabin, City of")
+                ElseIf oRecipient = "bbpwa@pine-net.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Broken Bow, City of")
+                ElseIf oRecipient Like "*@cityofcatoosa.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Catoosa, City of")
+                ElseIf oRecipient Like "*@checotah.net" Then
+                    MoveToFolder = GetFolder(cTULPath & "Checotah, City of")
+                ElseIf oRecipient = "chelseatownclerk@hotmail.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Chelsea, City of")
+                ElseIf oRecipient = "townofchouteau10@gmail.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Chouteau, City of")
+                ElseIf oRecipient Like "*@claremorecity.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Claremore, City of")
+                ElseIf oRecipient Like "*@cityofclevelandok.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Cleveland, City of")
+                ElseIf oRecipient Like "*@cityofcollinsville.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Collinsville, City of")
+                ElseIf objItem.subject Like "*Fax To 1(918) 371-1019*" Then
+                    MoveToFolder = GetFolder(cTULPath & "Collinsville, City of")
+                ElseIf oRecipient Like "*@cityofcoweta-ok.gov" Then
+                    MoveToFolder = GetFolder(cTULPath & "Coweta, City of")
+                ElseIf oRecipient Like "*@creekcountyonline.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Creek County")
+                ElseIf oRecipient Like "*@durant.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Durant, City of")
+                ElseIf oRecipient Like "*@cityofeufaulaok.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Eufaula, City of")
+                ElseIf oRecipient Like "*@fortgibson.net" Then
+                    MoveToFolder = GetFolder(cTULPath & "Fort Gibson, City of")
+                ElseIf oRecipient Like "*@cityofglenpool.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Glenpool, City of")
+                ElseIf oRecipient = "accountspay@sbcglobal.net" Then
+                    MoveToFolder = GetFolder(cTULPath & "Grove, City of")
+                ElseIf oRecipient Like "*@cityofgroveok.gov" Then
+                    MoveToFolder = GetFolder(cTULPath & "Grove, City of")
+                ElseIf objItem.subject Like "*Fax To 1(580) 286-3897*" Then
+                    MoveToFolder = GetFolder(cTULPath & "Idabel, City of")
+                ElseIf oRecipient Like "*@jenksok.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Jenks, City of")
+                ElseIf oRecipient = "townofjennings@yahoo.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Jennings, Town of")
+                ElseIf oRecipient Like "tracym@sstelco.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Locust Grove, Town of")
+                ElseIf oRecipient Like "*@muskogeeonline.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Muskogee, City of")
+                ElseIf oRecipient Like "*@nowataok.gov" Then
+                    MoveToFolder = GetFolder(cTULPath & "Nowata, City of")
+                ElseIf oRecipient Like "kspence@odot.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "ODOT, Divison VIII")
+                ElseIf oRecipient Like "tparks@odot.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "ODOT, Division VIII")
+                ElseIf oRecipient Like "*@okmcity.net" Then
+                    MoveToFolder = GetFolder(cTULPath & "Okmulgee, City of")
+                ElseIf oRecipient Like "*@cityofowasso.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Owasso, City of")
+                ElseIf oRecipient Like "*@tulsaport.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Port of Catoosa")
+                ElseIf oRecipient Like "*@sallisawok.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Sallisaw, City of")
+                ElseIf oRecipient Like "*@sandspringsok.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Sand Springs, City of")
+                ElseIf oRecipient Like "*@cityofsapulpa.net" Then
+                    MoveToFolder = GetFolder(cTULPath & "Sapulpa, City of")
+                ElseIf oRecipient Like "*@cityofskiatook.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Skiatook, City of")
+                ElseIf oRecipient Like "*@tahlequahpwa.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Tahlequah, City of")
+                ElseIf oRecipient Like "*@tenkiller.k12.ok.us" Then
+                    MoveToFolder = GetFolder(cTULPath & "Tenkiller Public Schools")
+                ElseIf oRecipient Like "*@tulsacounty.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Tulsa County")
+                ElseIf oRecipient Like "*@townofverdigris.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Verdigris, Town of")
+                ElseIf oRecipient Like "vinitastreetdept@gmail.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Vinita, City of")
+                ElseIf oRecipient Like "*@cityofvinita.com" Then
+                    MoveToFolder = GetFolder(cTULPath & "Vinita, City of")
+                ElseIf oRecipient Like "*@wagonercounty.ok.gov" Then
+                    MoveToFolder = GetFolder(cTULPath & "Wagoner County")
+                ElseIf oRecipient Like "*@wagonerok.org" Then
+                    MoveToFolder = GetFolder(cTULPath & "Wagoner, City of")
+                ElseIf oRecipient Like "*@cityofelreno.com" Then
+                    MoveToFolder = GetFolder(ncOKCPath & "El Reno, City of")
+                ElseIf oRecipient Like "*@piedmont-ok.gov" Then
+                    MoveToFolder = GetFolder(ncOKCPath & "Piedmont, City of")
+                ElseIf oRecipient Like "*@clintonok.gov" Then
+                    MoveToFolder = GetFolder(ncOKCPath & "Clinton, City of")
+                Else
+                    MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Sent Items\SignalTek")
+                End If
+            Next
+
+            If MoveToFolder Is Nothing Then
+                MessageBox.Show("Sender/City folder for " & objItem.RecipientName & " not found!")
+                releaseObject(objItem)
+            Else
+                objItem.UnRead = False
+                objItem.Move(MoveToFolder)
+                releaseObject(objItem)
+            End If
+            releaseObject(oRecipients)
+        Next
+        NAR(xOl)
+        NAR(NS)
+        NAR(MoveToFolder)
+    End Sub
     Public Sub MoveToSenderFolder()
 
         Dim xOl As Outlook.Application
         Dim NS As Outlook.NameSpace
         Dim MoveToFolder As Outlook.MAPIFolder
         Dim objItem As Object
+        Dim nonconPath As String
+        Dim conPath As String
+        Dim ncARKPath As String
+        Dim ncOKCPath As String
+        Dim ncTULPath As String
+        Dim cARKPath As String
+        Dim cOKCPath As String
+        Dim cTULPath As String
+        Dim objForward As Outlook.MailItem
+        nonconPath = "\\ASmedley@tlsokc.com\Folders\SignalTek\Cities\Non-Contract\"
+        conPath = "\\ASmedley@tlsokc.com\Folders\SignalTek\Cities\Contract\"
+        ncARKPath = nonconPath & "ARK - "
+        ncOKCPath = nonconPath & "OKC - "
+        ncTULPath = nonconPath & "TUL - "
+        cARKPath = conPath & "ARK - "
+        cOKCPath = conPath & "ARK - "
+        cTULPath = conPath & "TUL - "
+
         On Error Resume Next
         xOl = GetObject(, "Outlook.Application")
         If xOl Is Nothing Then
@@ -1454,16 +1723,246 @@ Public Class amanda
 
         For Each objItem In xOl.ActiveExplorer.Selection
             'If objItem.Class = Outlook.OlObjectClass.olMail Then
+
             If objItem.subject Like "*Payroll Check Print*" Then
-                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL\Amanda Kay Smedley\PayStubs")
+                objForward = objItem.forward
+                With objForward
+                    .Recipients.Add("amandakay10@me.com")
+                    .Recipients.ResolveAll()
+                    .Display()
+                End With
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\Amanda K. Smedley\PayStubs")
             ElseIf objItem.subject Like "*Applicant*" Or objItem.Subject Like "*Application*" Then
                 MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\Applicants")
             ElseIf objItem.subject Like "*Leave Used*" Or objItem.subject Like "*Leave Cancelled*" Then
                 MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\List Of Emps Out Today")
             ElseIf objItem.subject Like "*List of Employees Out*" Then
                 MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\List Of Emps Out Today")
+            ElseIf objItem.senderemailaddress Like "*@rkblack.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\RK Black")
+            ElseIf objItem.senderemailaddress Like "*@verizonwireless.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Verizon")
+            ElseIf objItem.senderemailaddress Like "*@oriux.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Peek Traffic - Oriux")
+            ElseIf objItem.senderemailaddress Like "*@gadestraffic.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Gades Sales")
+            ElseIf objItem.senderemailaddress Like "*@gridsmart.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\GridSmart")
+            ElseIf objItem.senderemailaddress Like "*@editraffic.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\EDI Traffic")
+            ElseIf objItem.senderemailaddress Like "*@econolite.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Econolite")
+            ElseIf objItem.senderemailaddress Like "*@ascentis.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Ascentis")
+            ElseIf objItem.senderemailaddress Like "*@ctc-traffic.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\CTC-RTC")
+            ElseIf objItem.senderemailaddress Like "*@atsi-tester.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\ATSI")
+            ElseIf objItem.senderemailaddress Like "*@*amazon.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Amazon")
+            ElseIf objItem.senderemailaddress Like "*@amazon.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Amazon")
+            ElseIf objItem.senderemailaddress Like "*@alpha.ca" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Alpha Technologies")
+            ElseIf objItem.senderemailaddress Like "*@bokf.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\BOK Financial")
+            ElseIf objItem.senderemailaddress Like "*@keepersecurity.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Keeper Security")
+            ElseIf objItem.senderemailaddress Like "*@wavetronix.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Wavetronix")
+            ElseIf objItem.senderemailaddress Like "*@wavetronix.com" Then
+                MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\Vendors\Wavetronix")
+            ElseIf objItem.senderemailaddress Like "*@cityofalma.org" Then
+                MoveToFolder = GetFolder(ncARKPath & "Alma, City of")
+            ElseIf objItem.senderemailaddress Like "*@barlingar.org" Then
+                MoveToFolder = GetFolder(cARKPath & "Barling, City of")
+            ElseIf objItem.senderemailaddress Like "*@bellavistaar.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Bella Vista, City of")
+            ElseIf objItem.senderemailaddress Like "*@bentoncountyar.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Benton County")
+            ElseIf objItem.senderemailaddress Like "*@berryville.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Berryville, City of")
+            ElseIf objItem.senderemailaddress Like "*@cavespringsar.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Cave Springs")
+            ElseIf objItem.senderemailaddress Like "*@centertonar.us" Then
+                MoveToFolder = GetFolder(cARKPath & "Centerton, City of")
+            ElseIf objItem.senderemailaddress Like "*@crawford-county.org" Then
+                MoveToFolder = GetFolder(cARKPath & "Crawford County")
+            ElseIf objItem.senderemailaddress Like "*@cityofdequeen.com" Then
+                MoveToFolder = GetFolder(ncARKPath & "De Queen, City of")
+            ElseIf objItem.senderemailaddress Like "*@elkins.arkansas.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Elkins, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityoffarmington-ar.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Farmington, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofgentry.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Gentry, City of")
+            ElseIf objItem.senderemailaddress Like "*@greenforestar.net" Then
+                MoveToFolder = GetFolder(ncARKPath & "Green Forest, City of")
+            ElseIf objItem.senderemailaddress Like "*@greenland-ar.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Greenland, City of")
+            ElseIf objItem.senderemailaddress = "gotreceipts@gmail.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Johnson, City of")
+            ElseIf objItem.senderemailaddress = "*lavcity@pinncom.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Lavaca, City of")
+            ElseIf objItem.senderemailaddress Like "*@lrcounty.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Little River County")
+            ElseIf objItem.senderemailaddress Like "*@lowellarkansas.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Lowell, City of")
+            ElseIf objItem.senderemailaddress Like "*@malvernar.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Malvern, City of")
+            ElseIf objItem.senderemailaddress = "cgibbs77@gmail.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Mena, City of")
+            ElseIf objItem.senderemailaddress = "bkmckee@sbcglobal.net" Then
+                MoveToFolder = GetFolder(cARKPath & "Mena, City of")
+            ElseIf objItem.subject Like "*Fax To 1(479) 394-5411*" Then
+                MoveToFolder = GetFolder(cARKPath & "Mena, City of")
+            ElseIf objItem.senderemailaddress = "megandennis@suddenlinkmail.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Morrilton, City of")
+            ElseIf objItem.senderemailaddress Like "*@paris-ar.net" Then
+                MoveToFolder = GetFolder(cARKPath & "Paris, City of")
+            ElseIf objItem.senderemailaddress = "francityhall@yahoo.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Pottsville, City of")
+            ElseIf objItem.senderemailaddress Like "*@pgtc.com" Then
+                MoveToFolder = GetFolder(cARKPath & "Prairie Grove, City of")
+            ElseIf objItem.senderemailaddress Like "*@co.sebastian.ar.us" Then
+                MoveToFolder = GetFolder(cARKPath & "Sebastian County")
+            ElseIf objItem.senderemailaddress = "townofspiro@sbcglobal.net" Then
+                MoveToFolder = GetFolder(cARKPath & "Spiro, Town of")
+            ElseIf objItem.senderemailaddress Like "*@tontitownar.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Tontitown, City of")
+            ElseIf objItem.senderemailaddress = "reginaoliver@cebridge.net" Then
+                MoveToFolder = GetFolder(cARKPath & "Waldron, City of")
+            ElseIf objItem.senderemailaddress Like "*@washingtoncountyar.gov" Then
+                MoveToFolder = GetFolder(cARKPath & "Washington County")
+            ElseIf objItem.senderemailaddress = "townofwestsiloam@cox-internet.com" Then
+                MoveToFolder = GetFolder(cARKPath & "West Siloam Springs")
+            ElseIf objItem.senderemailaddress Like "*@westsiloamsprings.org" Then
+                MoveToFolder = GetFolder(cARKPath & "West Siloam Springs")
+            ElseIf objItem.senderemailaddress Like "*@ardmorecity.org" Then
+                MoveToFolder = GetFolder(cOKCPath & "Ardmore, City of")
+            ElseIf objItem.senderemailaddress Like "*@banner.k12.ok.us" Then
+                MoveToFolder = GetFolder(cOKCPath & "Banner Public Schools")
+            ElseIf objItem.senderemailaddress Like "*@bethanyok.org" Then
+                MoveToFolder = GetFolder(cOKCPath & "Bethany, City of")
+            ElseIf objItem.senderemailaddress Like "*@blackwellok.org" Then
+                MoveToFolder = GetFolder(cOKCPath & "Blackwell, City of")
+            ElseIf objItem.senderemailaddress Like "*@caleraok.org" Then
+                MoveToFolder = GetFolder(cOKCPath & "Calera, City of")
+            ElseIf objItem.senderemailaddress = "okdovercc@pldi.net" Then
+                MoveToFolder = GetFolder(cOKCPath & "Dover, Town of")
+            ElseIf objItem.senderemailaddress Like "*@frederickok.org" Then
+                MoveToFolder = GetFolder(cOKCPath & "Frederick, City of")
+            ElseIf objItem.senderemailaddress = "fredelec@pldi.net" Then
+                MoveToFolder = GetFolder(cOKCPath & "Frederick, City of")
+            ElseIf objItem.senderemailaddress = "hennesseyap@pldi.net" Then
+                MoveToFolder = GetFolder(cOKCPath & "Hennessey, City of")
+            ElseIf objItem.senderemailaddress = "townoflaverneclerk@gmail.com" Then
+                MoveToFolder = GetFolder(cOKCPath & "Laverne, Town of")
+            ElseIf objItem.senderemailaddress = "tolgrandandcodeofficer@gmail.com" Then
+                MoveToFolder = GetFolder(cOKCPath & "Laverne, Town of")
+            ElseIf objItem.senderemailaddress Like "*@ci.lindsay.ok.us" Then
+                MoveToFolder = GetFolder(cOKCPath & "Lindsay, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofmadill.com" Then
+                MoveToFolder = GetFolder(cOKCPath & "Madill, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofmarlow.com" Then
+                MoveToFolder = GetFolder(cOKCPath & "Marlow, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofperkins.net" Then
+                MoveToFolder = GetFolder(cOKCPath & "Perkins, City of")
+            ElseIf objItem.senderemailaddress Like "*@purcellok.gov" Then
+                MoveToFolder = GetFolder(cOKCPath & "Purcell, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofwoodward.com" Then
+                MoveToFolder = GetFolder(cOKCPath & "Woodward, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofyukonok.gov" Then
+                MoveToFolder = GetFolder(cOKCPath & "Yukon, City of")
+            ElseIf objItem.senderemailaddress = "cityofantlers2@gmail.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Antlers, City of")
+            ElseIf objItem.senderemailaddress = "jarvis.nabors@yahoo.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Antlers, City of")
+            ElseIf objItem.senderemailaddress Like "*@atokaok.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Atoka, City of")
+            ElseIf objItem.senderemailaddress = "rita.moorecityofbigcabin@gmail.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Big Cabin, City of")
+            ElseIf objItem.senderemailaddress = "bbpwa@pine-net.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Broken Bow, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofcatoosa.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Catoosa, City of")
+            ElseIf objItem.senderemailaddress Like "*@checotah.net" Then
+                MoveToFolder = GetFolder(cTULPath & "Checotah, City of")
+            ElseIf objItem.senderemailaddress = "chelseatownclerk@hotmail.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Chelsea, City of")
+            ElseIf objItem.senderemailaddress = "townofchouteau10@gmail.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Chouteau, City of")
+            ElseIf objItem.senderemailaddress Like "*@claremorecity.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Claremore, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofclevelandok.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Cleveland, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofcollinsville.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Collinsville, City of")
+            ElseIf objItem.subject Like "*Fax To 1(918) 371-1019*" Then
+                MoveToFolder = GetFolder(cTULPath & "Collinsville, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofcoweta-ok.gov" Then
+                MoveToFolder = GetFolder(cTULPath & "Coweta, City of")
+            ElseIf objItem.senderemailaddress Like "*@creekcountyonline.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Creek County")
+            ElseIf objItem.senderemailaddress Like "*@durant.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Durant, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofeufaulaok.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Eufaula, City of")
+            ElseIf objItem.senderemailaddress Like "*@fortgibson.net" Then
+                MoveToFolder = GetFolder(cTULPath & "Fort Gibson, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofglenpool.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Glenpool, City of")
+            ElseIf objItem.senderemailaddress = "accountspay@sbcglobal.net" Then
+                MoveToFolder = GetFolder(cTULPath & "Grove, City of")
+            ElseIf objItem.subject Like "*Fax To 1(580) 286-3897*" Then
+                MoveToFolder = GetFolder(cTULPath & "Idabel, City of")
+            ElseIf objItem.senderemailaddress Like "*@jenksok.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Jenks, City of")
+            ElseIf objItem.senderemailaddress = "townofjennings@yahoo.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Jennings, Town of")
+            ElseIf objItem.senderemailaddress Like "tracym@sstelco.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Locust Grove, Town of")
+            ElseIf objItem.senderemailaddress Like "*@muskogeeonline.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Muskogee, City of")
+            ElseIf objItem.senderemailaddress Like "*@nowataok.gov" Then
+                MoveToFolder = GetFolder(cTULPath & "Nowata, City of")
+            ElseIf objItem.senderemailaddress Like "kspence@odot.org" Then
+                MoveToFolder = GetFolder(cTULPath & "ODOT, Divison VIII")
+            ElseIf objItem.senderemailaddress Like "tparks@odot.org" Then
+                MoveToFolder = GetFolder(cTULPath & "ODOT, Division VIII")
+            ElseIf objItem.senderemailaddress Like "*@okmcity.net" Then
+                MoveToFolder = GetFolder(cTULPath & "Okmulgee, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofowasso.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Owasso, City of")
+            ElseIf objItem.senderemailaddress Like "*@tulsaport.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Port of Catoosa")
+            ElseIf objItem.senderemailaddress Like "*@sallisawok.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Sallisaw, City of")
+            ElseIf objItem.senderemailaddress Like "*@sandspringsok.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Sand Springs, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofsapulpa.net" Then
+                MoveToFolder = GetFolder(cTULPath & "Sapulpa, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofskiatook.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Skiatook, City of")
+            ElseIf objItem.senderemailaddress Like "*@tahlequahpwa.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Tahlequah, City of")
+            ElseIf objItem.senderemailaddress Like "*@tenkiller.k12.ok.us" Then
+                MoveToFolder = GetFolder(cTULPath & "Tenkiller Public Schools")
+            ElseIf objItem.senderemailaddress Like "*@tulsacounty.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Tulsa County")
+            ElseIf objItem.senderemailaddress Like "*@townofverdigris.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Verdigris, Town of")
+            ElseIf objItem.senderemailaddress Like "vinitastreetdept@gmail.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Vinita, City of")
+            ElseIf objItem.senderemailaddress Like "*@cityofvinita.com" Then
+                MoveToFolder = GetFolder(cTULPath & "Vinita, City of")
+            ElseIf objItem.senderemailaddress Like "*@wagonercounty.ok.gov" Then
+                MoveToFolder = GetFolder(cTULPath & "Wagoner County")
+            ElseIf objItem.senderemailaddress Like "*@wagonerok.org" Then
+                MoveToFolder = GetFolder(cTULPath & "Wagoner, City of")
+
             Else
-                GetSenderFolder(objItem.SenderName)
+                GetSenderFolder(objItem.SenderName, objItem.senderemailaddress)
                 MoveToFolder = GetFolder(senderFolder)
             End If
             If MoveToFolder Is Nothing Then
@@ -1590,18 +2089,18 @@ Public Class amanda
             sYear = Year(Now())
         End If
 
-        destFolder = GetPSTFolder("ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\" & Division & "\" & JobType & "\" & sYear)
+        destFolder = GetPSTFolder("Archive\Small Jobs\" & Division & "\" & JobType & "\" & sYear)
 
         If destFolder Is Nothing Then
             MessageBox.Show("The destination folder doesn't exist. You may need to add the year folder.")
             Exit Sub
         End If
         curFolder.MoveTo(destFolder)
-ExitHandler:
+ExitHere:
         destFolder = Nothing
         curFolder = Nothing
-        'oNS = Nothing
         oOut = Nothing
+
     End Sub
     Public Function GetPSTFolder(strFolderPath As String) As Outlook.MAPIFolder
         Dim objApp As Outlook.Application
@@ -1656,9 +2155,9 @@ Retry_Action:
         ElseIf FoldersOrArchive = "Archive" Then
             MoveToFolder = GetFolder("\\Archive\" & targetFolder)
         ElseIf FoldersOrArchive = "SJArchive" Then
-            MoveToFolder = GetFolder("\\ASmedley@tlsokc.com\Archive\" & targetFolder)
+            MoveToFolder = GetFolder("\\Archive\" & targetFolder)
         ElseIf FoldersOrArchive = "LocatesArchive" Then
-            MoveToFolder = GetFolder("\\Locates\" & targetFolder)
+            MoveToFolder = GetFolder("\\locates.tulsa@TLSOKC.com\" & targetFolder)
         Else
             MoveToFolder = Nothing
             Dim msgResult = MessageBox.Show("You did not specify the 'FoldersOrArchive' parameter. Please check your code.", "Parameter Error!", MessageBoxButtons.OKCancel, MessageBoxIcon.Stop, MessageBoxDefaultButton.Button2)
@@ -1906,10 +2405,11 @@ ExitHandler:
     Public Sub SendContactList()
         Dim oApp As Outlook.Application
         Dim oMail As Outlook.MailItem
-        Dim strBody, strSubject, strAtt, strAdded, strRemoved, strUpdated As String
+        Dim strBody, strSubject, strAtt, strAtt2, strAdded, strRemoved, strUpdated As String
         Dim strAdd() As String
         Dim strUp() As String
         Dim strRem() As String
+
 
         strAdded = InputBox("Name of Added:", "Newly Added", "N/A")
         If strAdded <> "N/A" Then
@@ -1940,17 +2440,20 @@ ExitHandler:
             oApp = CreateObject("Outlook.Application")
         End If
         oMail = oApp.CreateItem(OlItemType.olMailItem)
-        strAtt = GetMostRecentPDF("\\TLS-FILE\TUL Administrative\Phone Listings\")
-        strSubject = "Tulsa Employee Phone List Updated " & Format(Now(), "MM/dd/yyyy")
+        'strAtt = GetMostRecentPDF("\\TLS-FILE\TUL Administrative\Phone Listings\")
+        strAtt = "\\TLS-FILE\HR\Phone Lists & Organization Charts\Employee Phone List - " & Format(Now(), "yyyy-MM-dd") & ".pdf"
+        strAtt2 = "\\TLS-FILE\HR\Phone Lists & Organization Charts\Animated Organizational Chart - " & Format(Now(), "yyyy-MM-dd") & ".pdf"
+        strSubject = "TLS Employee Phone List Updated " & Format(Now(), "MM/dd/yyyy")
         strBody = "<HTML><BODY><p><b><u>Added:</u></b><br>" & strAdded & "</p><p><b><u>Updated:</u></b><br>" & strUpdated & "</p><p><b><u>Removed:</u></b><br>" & strRemoved & "</p>"
 
         With oMail
             .Display()
-            .To = "TLS Cookout; cwillis@tlsokc.com; jbutler@tlsokc.com; tbond@tlsokc.com; dwillis@tlsokc.com; lbutler@tlsokc.com"
+            .To = "TLS Phone List"
             .Recipients.ResolveAll()
             .Subject = strSubject
             .HTMLBody = strBody & .HTMLBody
             .Attachments.Add(strAtt)
+            .Attachments.Add(strAtt2)
             .Display()
         End With
 
@@ -1958,6 +2461,64 @@ ExitHandler:
         releaseObject(oApp)
 
     End Sub
+
+    Public Sub SendNoOpEmail()
+        Dim oApp As Outlook.Application
+        Dim oMail As Outlook.MailItem
+        Dim strBody, strSubject As String
+
+        oApp = GetObject(, "Outlook.Application")
+        If oApp Is Nothing Then
+            oApp = CreateObject("Outlook.Application")
+        End If
+        oMail = oApp.CreateItem(OlItemType.olMailItem)
+
+        strSubject = "!! Equipment Operator B2W !!"
+        strBody = "<HTML><BODY><p>Please remember to enter an operator for each piece of equipment (this includes trailers).<br>Even if you have more than one log on one day and entered it on one, you still have to enter it on the second one. Every equipment entry MUST have an operator on every single field log.</p>"
+
+        With oMail
+            .Display()
+            .To = "TLS Foremans"
+            .Recipients.ResolveAll()
+            .Subject = strSubject
+            .HTMLBody = strBody & .HTMLBody
+            .Display()
+        End With
+
+        releaseObject(oMail)
+        releaseObject(oApp)
+
+    End Sub
+
+
+    Public Sub SendTroubleReportsDue()
+        Dim oApp As Outlook.Application
+        Dim oMail As Outlook.MailItem
+        Dim strBody, strSubject As String
+
+        oApp = GetObject(, "Outlook.Application")
+        If oApp Is Nothing Then
+            oApp = CreateObject("Outlook.Application")
+        End If
+        oMail = oApp.CreateItem(OlItemType.olMailItem)
+
+        strSubject = "!! Monthly Trouble Reports Due !!"
+        strBody = "<HTML><BODY><p>Have all trouble reports for last month entered into Signalog no later than the 10th!</p>"
+
+        With oMail
+            .Display()
+            .To = "SignalTek Technicians"
+            .Recipients.ResolveAll()
+            .Subject = strSubject
+            .HTMLBody = strBody & .HTMLBody
+            .Display()
+        End With
+
+        releaseObject(oMail)
+        releaseObject(oApp)
+
+    End Sub
+
     Public Sub SendDeductionEmail()
         Dim oOut As Outlook.Application
         Dim objMail As Outlook.MailItem
@@ -1993,11 +2554,11 @@ ExitHandler:
     Public Shared Sub OpenTextFile(ByVal filePath As String)
         'verify that the file exists
         If System.IO.File.Exists(filePath) = False Then
-            Console.Write("File Not Found: " & filePath)
+            Debug.WriteLine("File Not Found: " & filePath)
         Else
             'Open the text file and display it's contents
             Dim sr As System.IO.StreamReader = System.IO.File.OpenText(filePath)
-            Console.Write(sr.ReadToEnd)
+            Debug.WriteLine(sr.ReadToEnd)
             sr.Close()
         End If
     End Sub
@@ -2011,43 +2572,55 @@ ExitHandler:
         Dim BillingConfirmation As String
         Dim BilledOut As Boolean
         Dim entityAbbrv As String
-        Console.Write("jobNum: " & jobNum)
-        Console.Write("midJobNum " & Mid(jobNum, 1, 4))
-        If Mid(jobNum, 4, 1) = "9" Then
+        Dim wrongFolder As Boolean
+        Debug.WriteLine("jobNum: " & jobNum)
+        Debug.WriteLine("midJobNum " & Mid(jobNum, 1, 4))
+        If StrConv(Left(jobNum, 3), vbUpperCase) = "BST" Then
+            entityAbbrv = "STI"
+        ElseIf StrConv(Left(jobNum, 2), vbUpperCase) = "B2" Then
+            entityAbbrv = "TLS"
+        ElseIf Mid(jobNum, 4, 1) = 9 Then
             entityAbbrv = "STI"
         Else
             entityAbbrv = "TLS"
         End If
-        Console.Write("entityAbbrv=" & entityAbbrv)
+        Debug.WriteLine("entityAbbrv=" & entityAbbrv)
         If entityAbbrv = "STI" Then
-            Biller = "JOQUITA BUTLER"
+            Biller = "AMANDA SMEDLEY"
         Else
             Biller = "TRACY WILLIS"
         End If
 
-        If Left(jobNum, 1) = "B" Then
+        If StrConv(Left(jobNum, 1), vbUpperCase) = "B" Then
             BilledYear = Date.Today.ToString("yyyy")
         Else
             BilledYear = "20" & Mid(jobNum, 2, 2)
         End If
 
         BilledDate = BilledDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+
         Dim docPath As String
         Dim fullBilledFileName As String
         Dim fullSubmittedFileName As String
-        docPath = "\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\" & jobNum & "\Bid-Billing Info\"
+        docPath = "\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\" & jobNum & "\Billing-Job Info\"
         If System.IO.Directory.Exists(docPath) = False Then
-            docPath = "\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\COMPLETE & BILLED\" & jobNum & "\Bid-Billing Info\"
+            docPath = "\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\COMPLETE & BILLED\" & jobNum & "\Billing-Job Info\"
             fullBilledFileName = Path.Combine(docPath, Convert.ToString("BILLED DETAILS - " & BilledDate.ToString("MM-dd-yyyy") & " - " & myInitals & ".txt"))
             fullSubmittedFileName = ""
             BilledOut = True
+            wrongFolder = False
         Else
-            docPath = "\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\" & jobNum & "\Bid-Billing Info\"
+            docPath = "\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\" & jobNum & "\Billing-Job Info\"
             fullSubmittedFileName = Path.Combine(docPath, Convert.ToString("BILLING SUBMITTED - " & BilledDate.ToString("MM-dd-yyyy") & " - " & myInitals & ".txt"))
-            fullBilledFileName = ""
-            BilledOut = False
+            If System.IO.File.Exists(fullSubmittedFileName) = False Then
+                BilledOut = False
+                wrongFolder = True
+            Else
+                fullBilledFileName = Path.Combine(docPath, Convert.ToString("BILLED DETAILS - " & BilledDate.ToString("MM-dd-yyyy") & " - " & myInitals & ".txt"))
+                BilledOut = True
+                wrongFolder = True
+            End If
         End If
-
         If BilledOut = False Then
             Using billedDetails As New StreamWriter(fullSubmittedFileName)
                 BilledTo = Biller & " TO BILL OUT"
@@ -2056,6 +2629,9 @@ ExitHandler:
                     billedDetails.WriteLine(line)
                 Next
             End Using
+            If wrongFolder = True Then
+                MsgBox("Don't forget to move the job folder to completed & billed folder.", vbOKOnly, "Move Job Folder")
+            End If
         Else
             Using billedDetails As New StreamWriter(fullBilledFileName)
                 BillingConfirmation = "EMAIL RECEIVED FROM: " & Biller & " STATING THAT JOB WAS BILLED TO CUSTOMER."
@@ -2071,9 +2647,9 @@ ExitHandler:
         Dim BilledDate As Date = Date.Today
         Dim BilledYear As String = Date.Today.ToString("yyyy")
         Dim myInitals As String = "AKS"
-        Dim docPath As String = "\\TLS-FILE\TUL TLS Data\Job Folders\Tulsa\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\" & jobNum & "\Bid Info\"
+        Dim docPath As String = "\\TLS-FILE\TUL TLS Data\Job Folders\Small Jobs\" & entityAbbrv & "\" & BilledYear & "\" & jobNum & "\Billing-Job Info\"
         If entityAbbrv = "STI" Then
-            BilledTo = "JOQUITA BUTLER TO BILL OUT"
+            BilledTo = "AMANDA SMEDLEY TO BILL OUT"
         Else
             BilledTo = "TRACY WILLIS TO BILL OUT"
         End If
@@ -2147,6 +2723,7 @@ ExitHandler:
         End Try
 
     End Function
+
     Public Shared Function GetShortcutTargetFile(ByVal shortcutFilename As String) As String
         Dim myPath As String
         Dim pathOnly As String = Path.GetDirectoryName(shortcutFilename)
@@ -2163,6 +2740,7 @@ ExitHandler:
 
         Return myPath
     End Function
+
     Public Function GetFolder(ByVal folderPath As String) As Outlook.MAPIFolder
         Dim xOl As Outlook.Application = New Outlook.Application
         On Error Resume Next
@@ -2203,6 +2781,7 @@ GetFolder_Error:
         Exit Function
 
     End Function
+
     Public Sub AddNewFolder()
         Dim myPFName As String
         Dim myNFName As String
@@ -2235,7 +2814,7 @@ GetFolder_Error:
         Dim myParentFolder As Outlook.MAPIFolder
         Dim myCurrentFolder As Outlook.Folders
 
-        myParentFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL\Amanda Kay Smedley\Accounts")
+        myParentFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\Amanda K. Smedley\Accounts")
         myCurrentFolder = myParentFolder.Folders
         myCurrentFolder.Add("ONG", OlDefaultFolders.olFolderInbox)
         myCurrentFolder.Add("PSOklahoma", OlDefaultFolders.olFolderInbox)
@@ -2247,12 +2826,12 @@ GetFolder_Error:
         myCurrentFolder.Add("My Chart - St Francis", OlDefaultFolders.olFolderInbox)
 
 
-        myParentFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL\Amanda Kay Smedley\Accounts\Progressive")
+        myParentFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\Amanda K. Smedley\Accounts\Progressive")
         myCurrentFolder = myParentFolder.Folders
         myCurrentFolder.Add("Renters", OlDefaultFolders.olFolderInbox)
         myCurrentFolder.Add("Auto", OlDefaultFolders.olFolderInbox)
 
-        myParentFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\TUL\Amanda Kay Smedley\Accounts\Banking")
+        myParentFolder = GetFolder("\\ASmedley@tlsokc.com\Folders\TLS Employees\Amanda K. Smedley\Accounts\Banking")
         myCurrentFolder = myParentFolder.Folders
         myCurrentFolder.Add("Arvest", OlDefaultFolders.olFolderInbox)
         myCurrentFolder.Add("BarclayCard", OlDefaultFolders.olFolderInbox)
@@ -3142,26 +3721,26 @@ Err_Handler:
             If oMail.Attachments.Count > 0 Then
 
                 strStatus = "Saving attachment(s) from email " & objCount & " of " & objCount2 & "..."
-                    progressForm.lblStatus.Text = strStatus
-                    progressForm.Update()
-                    For Each atmt In oMail.Attachments
-                        If Right(atmt.FileName, 3) = "pdf" Then
-                            ticketNumber = ExtractTicketNumber(atmt.FileName)
-                            fileName = "2" & ticketNumber & "_" & memberCode & ".pdf"
+                progressForm.lblStatus.Text = strStatus
+                progressForm.Update()
+                For Each atmt In oMail.Attachments
+                    If Right(atmt.FileName, 3) = "pdf" Then
+                        ticketNumber = ExtractTicketNumber(atmt.FileName)
+                        fileName = "2" & ticketNumber & "_" & memberCode & ".pdf"
 
-                            'Path to save directory
-                            bPath = Path.Combine(My.Settings.LocateLandingPath & ticketNumber & "\")
-                            Debug.Print("bPath: " & bPath)
-                            'Create directory if it does't already exist
-                            If Dir(bPath, vbDirectory) = vbNullString Then
-                                MkDir(bPath)
-                            End If
-
-                            atmtName = bPath & fileName
-                            atmtSave = atmtName
-                            atmt.SaveAsFile(atmtSave)
+                        'Path to save directory
+                        bPath = Path.Combine(My.Settings.LocateLandingPath & ticketNumber & "\")
+                        Debug.Print("bPath: " & bPath)
+                        'Create directory if it does't already exist
+                        If Dir(bPath, vbDirectory) = vbNullString Then
+                            MkDir(bPath)
                         End If
-                    Next atmt
+
+                        atmtName = bPath & fileName
+                        atmtSave = atmtName
+                        atmt.SaveAsFile(atmtSave)
+                    End If
+                Next atmt
 
             End If
             oMail.Close(OlInspectorClose.olDiscard)
@@ -3189,7 +3768,7 @@ Err_Handler:
 
                     If SpeedUp = False Then System.Windows.Forms.Application.DoEvents()
 
-                    MoveToFolder_FullPath("\\Locates\Locates\Responses\USIC")
+                    MoveToFolder_FullPath("\\locates.tulsa@TLSOKC.com\Locates\Responses\USIC")
 
                 End If
             ElseIf mySelection.Count = 0 Then
@@ -3209,48 +3788,38 @@ Err_Handler:
     End Sub
     Public Sub SaveInvoice_PDF()
         Dim olOut As Outlook.Application
-        Dim fso As FileSystemObject
         Dim blnOverwrite As Boolean
-        Dim sendEmailAddr As String
-        Dim senderName As String
         Dim rcvdTime As String
         Dim pubTime As String
-        Dim looper As Integer
-        Dim plooper As Integer
         Dim oMail As Outlook.MailItem
         Dim obj As Object
         Dim mySelection As Selection
         Dim bPath As String
-        Dim EmailSubject As String
-        Dim saveName As String
         Dim objCount As Long
         Dim objCount2 As Long
         Dim progressForm As frmProgressBar
         Dim atmt As Attachment
-        Dim atmtName1 As String
-        Dim atmtName2 As String
-        Dim atmtSave1 As String
-        Dim atmtSave2 As String
-        Dim iForLoop As Long
-        Dim iForLoop2 As Long
-        Dim aForLoop As Long
         Dim objItem As Outlook.MailItem
         Dim fileName As String
         Dim jobNumber As String
+        Dim invNumber As String
         Dim invoiceDate As String
+        Dim atmtName1 As String
+        Dim atmtSave1 As String
         Dim sFolders As Outlook.Folders
         Dim oFolder As Outlook.Folder
         Dim bWild As Boolean
         Dim bFound As Boolean
         Dim sFind As String
         bWild = True
-
-        On Error Resume Next
-        olOut = GetObject(, "Outlook.Application")
-        If olOut Is Nothing Then
-            olOut = CreateObject("Outlook.Application")
-        End If
-        On Error GoTo Err_Handler
+        olOut = Nothing
+        Try
+            olOut = GetObject(, "Outlook.Application")
+        Finally
+            If olOut Is Nothing Then
+                olOut = CreateObject("Outlook.Application")
+            End If
+        End Try
 
         progressForm = New frmProgressBar()
         With progressForm
@@ -3285,19 +3854,25 @@ Err_Handler:
             rcvdTime = "_Rcvd" & Format(oMail.ReceivedTime, "yyMMddhhmmss")
             pubTime = "_Pub" & Format(Now(), "yyMMddhhmmss")
 
-            jobNumber = InputBox("Job Number?")
-            invoiceDate = CDate(InputBox("Invoice Date?", "Date", Date.Today)).ToString("yyyy-MM-dd")
+            jobNumber = StrConv(InputBox("Job Number?", "Enter Job Number", GetSmallJobNumber(oMail)), vbUpperCase)
+            invoiceDate = CDate(InputBox("Invoice Date?", "Date", Date.Today)).ToString("MM-dd-yyyy")
+            invNumber = InputBox("Invoice #?",, jobNumber & ".01")
 
-            fileName = "Invoice " & jobNumber & ".01 - " & invoiceDate & ".pdf"
+            fileName = "Invoice " & invNumber & " - " & invoiceDate & ".pdf"
             'User Options
             blnOverwrite = True 'False = don't overwrite existing pdf, true = do overwrite
 
             'Path to save directory
-            If Mid(jobNumber, 4, 1) = 7 Then
-                bPath = Path.Combine(My.Settings.TLSJobPath & "20" & Mid(jobNumber, 2, 2) & "\Complete & Billed\" & jobNumber & "\Bid-Billing Info\")
+            If Left(jobNumber, 3) = "BST" Then
+                bPath = Path.Combine(My.Settings.STIJobPath & "20" & Mid(jobNumber, 4, 2) & "\Complete & Billed\" & jobNumber & "\Billing-Job Info\")
+            ElseIf Left(jobNumber, 2) = "B2" Then
+                bPath = Path.Combine(My.Settings.TLSJobPath & "20" & Mid(jobNumber, 2, 2) & "\Complete & Billed\" & jobNumber & "\Billing-Job Info\")
+            ElseIf Mid(jobNumber, 4, 1) = 7 Then
+                bPath = Path.Combine(My.Settings.TLSJobPath & "20" & Mid(jobNumber, 2, 2) & "\Complete & Billed\" & jobNumber & "\Billing-Job Info\")
             Else
-                bPath = Path.Combine(My.Settings.STIJobPath & "20" & Mid(jobNumber, 2, 2) & "\Complete & Billed\" & jobNumber & "\Bid-Billing Info\")
+                bPath = Path.Combine(My.Settings.STIJobPath & "20" & Mid(jobNumber, 2, 2) & "\Complete & Billed\" & jobNumber & "\Billing-Job Info\")
             End If
+
             sFind = jobNumber & "*"
             Debug.Print("bPath: " & bPath)
             'Create directory if it does't already exist
@@ -3313,7 +3888,12 @@ Err_Handler:
                     If Right(atmt.FileName, 3) = "pdf" Then
                         atmtName1 = bPath & fileName
                         atmtSave1 = atmtName1
-                        atmt.SaveAsFile(atmtSave1)
+                        Try
+                            atmt.SaveAsFile(atmtSave1)
+                        Catch ex As ArgumentException
+                            MessageBox.Show("Unable to save invoice.")
+                        End Try
+
                     End If
                 Next atmt
             End If
@@ -3339,19 +3919,26 @@ Err_Handler:
                             GoTo Exit_Handler
                         End If
                     Next objItem
-                    If Mid(jobNumber, 4, 1) = 7 Then
-                        sFolders = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\TLS\20" & Mid(jobNumber, 2, 2)).Folders
+                    If Left(jobNumber, 3) = "BST" Then
+                        sFolders = GetFolder("\\Archive\Small Jobs\TUL\STI\20" & Mid(jobNumber, 4, 2)).Folders
+                    ElseIf Mid(jobNumber, 4, 1) = 9 Then
+                        sFolders = GetFolder("\\Archive\Small Jobs\TUL\STI\20" & Mid(jobNumber, 2, 2)).Folders
                     Else
-                        sFolders = GetFolder("\\ASmedley@tlsokc.com\Archive\Small Jobs\Complete & Billed\TUL\STI\20" & Mid(jobNumber, 2, 2)).Folders
+                        sFolders = GetFolder("\\Archive\Small Jobs\TUL\TLS\20" & Mid(jobNumber, 2, 2)).Folders
                     End If
                     If SpeedUp = False Then System.Windows.Forms.Application.DoEvents()
+                    sFind = LCase(jobNumber & "*")
                     For Each oFolder In sFolders
                         Debug.Print(oFolder.Name)
-                        bFound = (LCase(oFolder.Name) Like sFind)
-                        If bFound Then
-                            Debug.Print(oFolder.FolderPath)
-                            MoveToFolder_FullPath(oFolder.FolderPath)
-                        End If
+                        Try
+                            bFound = (LCase(oFolder.Name) Like sFind)
+                            If bFound Then
+                                Debug.Print(oFolder.FolderPath)
+                                MoveToFolder_FullPath(oFolder.FolderPath)
+                            End If
+                        Catch ex As ArgumentException
+                            MessageBox.Show(ex.Message)
+                        End Try
                     Next
                 End If
             ElseIf mySelection.Count = 0 Then
@@ -3365,9 +3952,7 @@ Exit_Handler:
         NAR(mySelection)
         NAR(progressForm)
         Exit Sub
-Err_Handler:
-        MessageBox.Show("Err: " & Err.Number & vbNewLine & "Desc: " & Err.Description & vbNewLine & Err.Source)
-        GoTo Exit_Handler
+
     End Sub
     Public Sub SaveTaskOrder_PDF()
         Dim olOut As Outlook.Application
@@ -3455,7 +4040,7 @@ Err_Handler:
             blnOverwrite = True 'False = don't overwrite existing pdf, true = do overwrite
             'Path to save directory
             bPath1 = Path.Combine(My.Settings.TaskOrderPath)
-            bPath2 = Path.Combine(My.Settings.TLSJobPath & "20" & Mid(jobNumber, 2, 2) & "\" & jobNumber & "\" & "Bid-Billing Info\")
+            bPath2 = Path.Combine(My.Settings.TLSJobPath & "20" & Mid(jobNumber, 2, 2) & "\" & jobNumber & "\" & "Billing-Job Info\")
             Debug.Print("bPath1: " & bPath1)
             Debug.Print("bPath2: " & bPath2)
             'Create directory if it does't already exist
@@ -3524,6 +4109,7 @@ Err_Handler:
             System.Runtime.InteropServices.Marshal.ReleaseComObject(obj)
             obj = Nothing
         Catch ex As System.Exception
+            Debug.WriteLine("ReleaseObject System Exception: " & ex.Message)
             obj = Nothing
         End Try
     End Sub
@@ -3538,6 +4124,16 @@ Err_Handler:
             strText = Replace(strText, Mid(xStripChars, i, 1), "")
         Next
         CleanFileName = strText
+    End Function
+
+    Public Function GetSmallJobNumber(Item As Outlook.MailItem) As String
+        ExtractSmallJobNum(Item.Subject)
+        If Not myJobNumber = "Not Found" Then
+            GetSmallJobNumber = mySJNumber
+        Else
+            ExtractSmallJobNum(Item.Body)
+            GetSmallJobNumber = mySJNumber
+        End If
     End Function
     Public Function GetMemberCode(Item As Outlook.MailItem) As String
         memCodeRegExPattern = "(OGTEAST|P66OK03|P66OK06|T0955D|T0955A|T0955B|EOIT07|((S|T){1}\d{5}))"
@@ -3576,46 +4172,707 @@ Err_Handler:
             End If
         End If
     End Function
-    Public Function ExtractTicketNumber(strTkt As String) As String
-        tktNumRegExPattern = "(\d{14})"
-        Dim tktNumRegEx As New Regex(tktNumRegExPattern)
-        Dim matchCol As MatchCollection = tktNumRegEx.Matches(strTkt)
-        Dim myMatch As Match
-        If matchCol.Count = 0 Then
-            ExtractTicketNumber = "Not Found"
-        Else
-            myMatch = matchCol(0)
-            ExtractTicketNumber = myMatch.ToString
+
+    Public Sub RenameLocateResponseSubjectLines()
+        Dim xOl As Outlook.Application
+        Dim xItem As MailItem
+        Dim myReader As Microsoft.VisualBasic.FileIO.TextFieldParser
+        Dim currentRow As String()
+        Dim currentField As String
+        Dim xItem1 As MailItem
+        Dim objCount As Long
+        Dim objCount2 As Long
+        Dim progressForm As frmProgressBar
+
+        xOl = Nothing
+        Try
+            xOl = GetObject(, "Outlook.Application")
+        Catch exce As System.Exception
+            If xOl Is Nothing Then
+                xOl = CreateObject("Outlook.Application")
+            End If
+        End Try
+        Try
+            xOl = GetObject(, "Outlook.Application")
+        Catch exc As System.Exception
+            If xOl Is Nothing Then
+                MsgBox("Couldn't get outlook object.")
+                Exit Sub
+            End If
+        End Try
+        progressForm = New frmProgressBar()
+        progressValue = 0
+        objCount = 0
+        objCount2 = xOl.ActiveExplorer.Selection.Count
+        With progressForm
+            .Show()
+            .lblStatus.Text = defaultStatus
+            .myProgressBar.Value = progressValue
+            .myProgressBar.Update()
+        End With
+        For Each xItem In xOl.ActiveExplorer.Selection
+            objCount = objCount + 1
+            progressForm.lblStatus.Text = "Processing " & objCount & " of " & objCount2 & "..."
+            progressForm.Update()
+            myTicketNumber = ""
+            myMemberCode = ""
+            myTicketNumber = GetTicketNumber(xItem)
+            myMemberCode = GetMemberCode(xItem)
+            If myTicketNumber <> "" Then
+                If myMemberCode <> "" Then
+                    Debug.WriteLine("Ticket: " & myTicketNumber & "   Member: " & myMemberCode)
+                    myReader = My.Computer.FileSystem.OpenTextFieldParser("C:\Scripts\Locates\TicketNumbers.csv")
+                    myReader.TextFieldType = FileIO.FieldType.Delimited
+                    myReader.SetDelimiters(",")
+                    While Not myReader.EndOfData
+                        Try
+                            currentRow = myReader.ReadFields()
+                            For Each currentField In currentRow
+                                If Left(currentField, 14) = myTicketNumber Then
+                                    myJobNumber = currentRow(0)
+                                    Debug.WriteLine("Explorer: " & myJobNumber)
+                                    If myJobNumber <> "" Then
+                                        xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber & " - Response: " & myMemberCode
+                                    End If
+                                    Debug.WriteLine("xItem.Subject: " & xItem.Subject)
+                                    xItem.Save()
+                                    xItem = xItem
+                                    MoveToJobTktFolder_Responses(xItem)
+                                End If
+                            Next
+                        Catch ex As Microsoft.VisualBasic.FileIO.MalformedLineException
+                            Debug.WriteLine("Line " & ex.Message & " malformed. " & vbNewLine & myReader.ErrorLineNumber & ": " & myReader.ErrorLine)
+                            MsgBox("Line " & ex.Message & " malformed. " & vbNewLine & myReader.ErrorLineNumber & ": " & myReader.ErrorLine)
+                        End Try
+                    End While
+                Else
+                    MsgBox("No member code found.")
+                End If
+            Else
+                MsgBox("No ticket number found.")
+            End If
+            progressValue = (objCount / objCount2) * 100
+            progressForm.myProgressBar.Value = progressValue
+            progressForm.myProgressBar.Update()
+        Next xItem
+
+        progressForm.lblStatus.Text = defaultStatus
+        progressForm.myProgressBar.Value = 0
+        progressForm.myProgressBar.Update()
+        progressForm.Close()
+
+        xItem1 = Nothing
+        xItem = Nothing
+        xOl = Nothing
+
+    End Sub
+
+    Public Sub RenameLocateTktSubjectLines()
+        Dim xOl As Outlook.Application
+        Dim xItem As MailItem
+        Dim myReader As Microsoft.VisualBasic.FileIO.TextFieldParser
+        Dim currentRow As String()
+        Dim currentField As String
+        Dim xItem1 As MailItem
+        Dim objCount As Long
+        Dim objCount2 As Long
+        Dim progressForm As frmProgressBar
+        xOl = Nothing
+        Try
+            xOl = GetObject(, "Outlook.Application")
+        Catch exce As System.Exception
+            If xOl Is Nothing Then
+                xOl = CreateObject("Outlook.Application")
+            End If
+        End Try
+        Try
+            xOl = GetObject(, "Outlook.Application")
+        Catch exc As System.Exception
+            If xOl Is Nothing Then
+                MsgBox("Couldn't get outlook object.")
+                Exit Sub
+            End If
+        End Try
+        'xItem = GetCurrentItem()
+
+        progressForm = New frmProgressBar()
+        progressValue = 0
+        objCount = 0
+        objCount2 = xOl.ActiveExplorer.Selection.Count
+        With progressForm
+            .Show()
+            .lblStatus.Text = defaultStatus
+            .myProgressBar.Value = progressValue
+            .myProgressBar.Update()
+        End With
+        For Each xItem In xOl.ActiveExplorer.Selection
+            objCount = objCount + 1
+            progressForm.lblStatus.Text = "Processing " & objCount & " of " & objCount2 & "..."
+            progressForm.Update()
+            myTicketNumber = GetTicketNumber(xItem)
+            Debug.WriteLine("Explorer: " & myTicketNumber)
+            myReader = My.Computer.FileSystem.OpenTextFieldParser("C:\Scripts\Locates\TicketNumbers.csv")
+            myReader.TextFieldType = FileIO.FieldType.Delimited
+            myReader.SetDelimiters(",")
+            While Not myReader.EndOfData
+                Try
+                    currentRow = myReader.ReadFields()
+                    For Each currentField In currentRow
+                        If Left(currentField, 14) = myTicketNumber Then
+                            myJobNumber = currentRow(0)
+                            Debug.WriteLine("Explorer: " & myJobNumber)
+                            If myJobNumber <> "" Then
+                                If xItem.Subject Like "*Update*" Or xItem.Subject Like "*Update" Then
+                                    xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber & " - Update"
+                                ElseIf xItem.Subject Like "*Normal*" Or xItem.Subject Like "*Normal" Then
+                                    xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber & " - Normal"
+                                ElseIf xItem.Subject Like "*2nd Notice*" Or xItem.Subject Like "*2nd Notice" Then
+                                    xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber & " - 2nd Notice"
+                                ElseIf xItem.Subject Like "*Correction*" Or xItem.Subject Like "*Correction" Then
+                                    xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber & " - Correction"
+                                ElseIf xItem.Subject Like "*Cancel Request*" Or xItem.Subject Like "*Cancel*" Or xItem.Subject Like "*Cancel Request" Or xItem.Subject Like "*Cancel" Then
+                                    xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber & " - Cancel Request"
+                                ElseIf xItem.Subject Like "*Noncompliant*" Or xItem.Subject Like "*Noncompliance*" Or xItem.Subject Like "*Noncompliant" Or xItem.Subject Like "*Noncompliance" Then
+                                    xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber & " - Non-compliant"
+                                Else
+                                    xItem.Subject = myJobNumber & " - Ticket #: " & myTicketNumber
+                                End If
+                                Debug.WriteLine("xItem.Subject: " & xItem.Subject)
+                                xItem.Save()
+                                xItem = xItem
+                                MoveToJobTicketFolder(xItem)
+                                'MoveToFolder_FullPath("\\Locates\Locates\Tickets\Renamed")
+                            End If
+                        End If
+                    Next
+                Catch ex As Microsoft.VisualBasic.FileIO.MalformedLineException
+                    Debug.WriteLine("Line " & ex.Message & " malformed. " & vbNewLine & myReader.ErrorLineNumber & ": " & myReader.ErrorLine)
+                    MsgBox("Line " & ex.Message & " malformed. " & vbNewLine & myReader.ErrorLineNumber & ": " & myReader.ErrorLine)
+                End Try
+            End While
+            progressValue = (objCount / objCount2) * 100
+            progressForm.myProgressBar.Value = progressValue
+            progressForm.myProgressBar.Update()
+        Next xItem
+
+
+        progressForm.lblStatus.Text = defaultStatus
+        progressForm.myProgressBar.Value = 0
+        progressForm.myProgressBar.Update()
+        progressForm.Close()
+
+        xItem1 = Nothing
+        xItem = Nothing
+        xOl = Nothing
+
+    End Sub
+
+    Public Sub MoveToJobTicketFolder(xItem As MailItem)
+        Dim xOl As Outlook.Application
+        Dim destFolder As Outlook.Folder
+        Dim myYear As String
+        Dim myMonth As String
+        Dim myMonthNum As String
+        Dim mySubJobNum As String
+        Dim myJobYear As String
+        Dim xItem1 As MailItem
+        xItem1 = xItem
+        xOl = Nothing
+        Dim tryAgain As Boolean = True
+        While tryAgain
+            Try
+                xOl = GetObject(, "Outlook.Application")
+                tryAgain = False
+            Catch exce As System.Exception
+                Debug.WriteLine(exce.Message)
+                If xOl Is Nothing Then
+                    tryAgain = False
+                    Exit Sub
+                End If
+            End Try
+        End While
+        Debug.WriteLine("xOL = " & xOl.Name)
+        'xItem = GetCurrentItem()
+
+        'For Each xItem In xOl.ActiveExplorer.Selection
+        '    xOl.ActiveExplorer.RemoveFromSelection(xItem)
+        'Next
+        'releaseObject(xItem)
+        'xItem = Nothing
+        'xOl.ActiveExplorer.SelectAllItems()
+        'For Each xItem1 In xOl.ActiveExplorer.Selection
+        Debug.WriteLine("xItem1 Subject: " & xItem1.Subject)
+        myTicketNumber = GetTicketNumber(xItem1)
+        myYear = "20" & Left$(myTicketNumber, 2)
+        myJobNumber = Left$(xItem1.Subject, 6)
+        mySubJobNum = ""
+        myJobYear = "20" & Mid(myJobNumber, 2, 2)
+        'check if it's a series
+        If Mid(xItem1.Subject, 7, 1) = "." Then
+            mySubJobNum = Left$(xItem1.Subject, 9)
+        ElseIf Mid(xItem1.Subject, 8, 1) = "(" Then
+            mySubJobNum = Trim(Left(xItem1.Subject, 11))
         End If
-        myTicketNumber = ExtractTicketNumber
+
+        ' check if it's a quote or shop
+        If Left(xItem1.Subject, 5) = "QUOTE" Then
+            myJobNumber = "QUOTES"
+            myJobYear = ""
+        ElseIf Left(xItem1.Subject, 4) = "SHOP" Then
+            myJobNumber = "SHOP"
+            myJobYear = ""
+        ElseIf Left(xItem1.Subject, 3) = "BST" Then
+            myJobNumber = Left(xItem1.Subject, 7)
+            myJobYear = "2017"
+        ElseIf Left(xItem1.Subject, 1) = "B" Then
+            myJobNumber = Left(xItem1.Subject, 5)
+            myJobYear = "2017"
+        ElseIf Mid(xItem1.Subject, 4, 1) <> "0" Then
+            myJobNumber = Left(xItem1.Subject, 4) & "00"
+            mySubJobNum = Left(xItem1.Subject, 6)
+        End If
+
+
+        myMonthNum = Mid(myTicketNumber, 3, 2)
+        myMonth = myYear & "-" & myMonthNum
+        'destFolder = xOl.Session.Folders("locates.tulsa@TLSOKC.com").Folders("Locates").Folders("Jobs")
+        destFolder = GetFolder("\\locates.tulsa@TLSOKC.com\Locates\Jobs")
+        'if myjobyear exists, find it
+
+        Dim doRetry As Boolean = True
+        While doRetry
+            If myJobYear <> "" Then
+                Try
+                    destFolder = destFolder.Folders(myJobYear)
+                    doRetry = False
+                Catch ex As System.Runtime.InteropServices.COMException
+                    Debug.WriteLine("myJobYear Folder Error = " & ex.Message)
+                    destFolder.Folders.Add(myJobYear)
+                    doRetry = True
+                End Try
+            Else
+                doRetry = False
+            End If
+        End While
+        'loop to find job number folder under jobs
+        doRetry = True
+        While doRetry
+            Try
+                destFolder = destFolder.Folders(myJobNumber)
+                doRetry = False
+            Catch fail As System.Runtime.InteropServices.COMException
+                Debug.WriteLine("myJobNumber Folder Error = " & fail.Message)
+                destFolder.Folders.Add(myJobNumber)
+                doRetry = True
+            End Try
+        End While
+        'loop to find subjobnumber folder under job number
+        doRetry = True
+        While doRetry
+            If mySubJobNum <> "" Then
+                Try
+                    destFolder = destFolder.Folders(mySubJobNum)
+                    doRetry = False
+                Catch exp As System.Runtime.InteropServices.COMException
+                    Debug.WriteLine("mySubJobNumber Folder Error = " & exp.Message)
+                    destFolder.Folders.Add(mySubJobNum)
+                    doRetry = True
+                End Try
+            Else
+                doRetry = False
+            End If
+        End While
+
+        Debug.WriteLine("DestFolder: " & destFolder.FolderPath)
+
+        Try
+            xItem1.Move(destFolder)
+        Catch ee As System.Exception
+            Debug.WriteLine("Couldn't move to folder error = " & ee.Message)
+            MsgBox("Error" & ee.Message)
+        Finally
+            releaseObject(xItem1)
+        End Try
+        'Next xItem1
+
+    End Sub
+
+    Public Sub MoveToJobTktFolder_Responses(xItem As MailItem)
+        Dim xOl As Outlook.Application
+        Dim destFolder As Outlook.Folder
+        Dim xItem1 As MailItem
+        Dim myYear As String
+        Dim myMonth As String
+        Dim myMonthNum As String
+        Dim mySubJobNum As String
+        Dim myJobYear As String
+        xItem1 = xItem
+        xOl = Nothing
+        Try
+            xOl = GetObject(, "Outlook.Application")
+        Catch exce As System.Exception
+            If xOl Is Nothing Then
+                xOl = CreateObject("Outlook.Application")
+            End If
+        End Try
+        If xOl Is Nothing Then
+            Try
+                xOl = GetObject(, "Outlook.Application")
+            Catch exc As System.Exception
+                If xOl Is Nothing Then
+                    MsgBox("Couldn't get outlook object.")
+                    Exit Sub
+                End If
+            End Try
+        End If
+        Debug.WriteLine("xItem1 Subject: " & xItem1.Subject)
+        myTicketNumber = GetTicketNumber(xItem1)
+        myJobNumber = Left$(xItem1.Subject, 6)
+        mySubJobNum = ""
+        myJobYear = "20" & Mid(myJobNumber, 2, 2)
+        'check if it's a series
+        If Mid(xItem1.Subject, 7, 1) = "." Then
+            mySubJobNum = Left$(xItem1.Subject, 9)
+        ElseIf Mid(xItem1.Subject, 8, 1) = "(" Then
+            mySubJobNum = Trim(Left(xItem1.Subject, 11))
+        End If
+        ' check if it's a quote or shop
+        If Left(xItem1.Subject, 5) = "QUOTE" Then
+            myJobNumber = "QUOTES"
+            myJobYear = ""
+        ElseIf Left(xItem1.Subject, 4) = "SHOP" Then
+            myJobNumber = "SHOP"
+            myJobYear = ""
+        ElseIf Left(xItem1.Subject, 3) = "BST" Then
+            myJobNumber = Left(xItem1.Subject, 7)
+            myJobYear = "2017"
+        ElseIf Left(xItem1.Subject, 1) = "B" Then
+            myJobNumber = Left(xItem1.Subject, 5)
+            myJobYear = "2017"
+        ElseIf Mid(xItem1.Subject, 4, 1) <> "0" Then
+            myJobNumber = Left(xItem1.Subject, 4) & "00"
+            mySubJobNum = Left(xItem1.Subject, 6)
+        End If
+        myYear = "20" & Left$(myTicketNumber, 2)
+        myMonthNum = Mid(myTicketNumber, 3, 2)
+        myMonth = myYear & "-" & myMonthNum
+        'destFolder = xOl.Session.Folders("Locates").Folders("Locates").Folders("Jobs")
+        destFolder = GetFolder("\\locates.tulsa@TLSOKC.com\Locates\Jobs")
+        Debug.WriteLine("myYear = " & myYear)
+        Debug.WriteLine("myJobNumber = " & myJobNumber)
+        Debug.WriteLine("myJobYear = " & myJobYear)
+        Debug.WriteLine("mySubJobNum = " & mySubJobNum)
+        Debug.WriteLine("mymonthnum = " & myMonthNum)
+        Debug.WriteLine("mymonth = " & myYear & "-" & myMonthNum)
+
+        'if myjobyear exists, find it
+        Dim doRetry As Boolean = True
+        While doRetry
+            If myJobYear <> "" Then
+                Try
+                    destFolder = destFolder.Folders(myJobYear)
+                    doRetry = False
+                Catch ex As System.Runtime.InteropServices.COMException
+                    destFolder.Folders.Add(myJobYear)
+                    doRetry = True
+                End Try
+            Else
+                doRetry = False
+            End If
+        End While
+        'loop to find job number folder under jobs
+        doRetry = True
+        While doRetry
+            Try
+                destFolder = destFolder.Folders(myJobNumber)
+                doRetry = False
+            Catch fail As System.Runtime.InteropServices.COMException
+                destFolder.Folders.Add(myJobNumber)
+                doRetry = True
+            End Try
+        End While
+        'loop to find subjobnumber folder under job number
+        doRetry = True
+        While doRetry
+            If mySubJobNum <> "" Then
+                Try
+                    destFolder = destFolder.Folders(mySubJobNum)
+                    doRetry = False
+                Catch ex As System.Runtime.InteropServices.COMException
+                    destFolder.Folders.Add(mySubJobNum)
+                    doRetry = True
+                End Try
+            Else
+                doRetry = False
+            End If
+        End While
+        Debug.WriteLine("DestFolder: " & destFolder.FolderPath)
+        Try
+            xItem1.Move(destFolder)
+        Catch ee As System.Exception
+            MsgBox("Error" & ee.Message)
+        Finally
+            releaseObject(xItem1)
+        End Try
+        releaseObject(xItem1)
+        releaseObject(xOl)
+    End Sub
+
+    Public Sub ReDateLocateFolders()
+        Dim x1 As String
+        Dim x2 As String
+        Dim x3 As String
+        Dim x4 As String
+        x1 = ""
+        x2 = ""
+        x3 = ""
+        x4 = ""
+        x1 = InputBox("Top Folder (StoreName)", "Please Enter", "Locates")
+        x2 = InputBox("Second Folder", "Please Enter", "Locates")
+        x3 = InputBox("Third Folder", "Please Enter", "Jobs")
+        x4 = InputBox("Fourth Folder", "Please Enter", x4)
+        ReDateFolders(x1, x2, x3, x4)
+    End Sub
+
+    Private Sub ReDateFolders(xTopFolder As String, Optional x2ndFolder As String = "", Optional x3rdFolder As String = "", Optional x4thFolder As String = "")
+        Dim xOL As Outlook.Application
+        Dim xFolder As Outlook.Folder
+        Dim xSub As Outlook.Folder
+        Dim origName As String
+        Dim newName As String
+        Dim origDate As Date
+        Dim oldPattern As String
+        Dim newPattern As String
+        Dim doRetry As Boolean
+        doRetry = True
+        xOL = Nothing
+        While doRetry
+            Try
+                xOL = GetObject(, "Outlook.Application")
+                doRetry = False
+                Debug.WriteLine("Successfully set outlook application object.")
+            Catch exce As System.Exception
+                If xOL Is Nothing Then
+                    xOL = CreateObject("Outlook.Application")
+                    doRetry = True
+                    Debug.WriteLine("Created Outlook Object DoReTry = " & doRetry)
+                Else
+                    doRetry = False
+                    Debug.WriteLine("DoReTry = " & doRetry)
+                End If
+            End Try
+        End While
+        If x4thFolder <> "" Then
+            xFolder = xOL.Session.Folders(xTopFolder).Folders(x2ndFolder).Folders(x3rdFolder).Folders(x4thFolder)
+        ElseIf x3rdFolder <> "" Then
+            xFolder = xOL.Session.Folders(xTopFolder).Folders(x2ndFolder).Folders(x3rdFolder)
+        ElseIf x2ndFolder <> "" Then
+            xFolder = xOL.Session.Folders(xTopFolder).Folders(x2ndFolder)
+        Else
+            xFolder = xOL.Session.Folders(xTopFolder)
+        End If
+
+        oldPattern = "MM-yyyy"
+        newPattern = "yyyy-MM"
+
+        For Each xSub In xFolder.Folders
+            origName = xSub.Name
+            If Len(origName) <> 14 Then
+                Debug.WriteLine("Folder Name: " & origName)
+                If DateTime.TryParseExact(origName, oldPattern, Nothing, DateTimeStyles.None, origDate) Then
+                    Debug.WriteLine("Converted '{0}' to {1:d}.", origName, origDate)
+                    newName = origDate.ToString(newPattern)
+                    xSub.Name = newName
+                Else
+                    Debug.WriteLine("Unable to convert '{0}' to a date and time.", origName)
+                End If
+            End If
+            If xSub.Folders.Count > 0 Then
+                Dim xSub1 As Outlook.Folder
+                For Each xSub1 In xSub.Folders
+                    origName = xSub1.Name
+                    If Len(origName) <> 14 Then
+
+                        Debug.WriteLine("Folder Name: " & origName)
+                        If DateTime.TryParseExact(origName, oldPattern, Nothing, DateTimeStyles.None, origDate) Then
+                            Debug.WriteLine("Converted '{0}' to {1:d}.", origName, origDate)
+                            newName = origDate.ToString(newPattern)
+                            xSub1.Name = newName
+                        Else
+                            Debug.WriteLine("Unable to convert '{0}' to a date and time.", origName)
+                        End If
+                    End If
+                    If xSub1.Folders.Count > 0 Then
+                        Dim xSub2 As Outlook.Folder
+                        For Each xSub2 In xSub1.Folders
+                            origName = xSub2.Name
+                            If Len(origName) <> 14 Then
+                                Debug.WriteLine("Folder Name: " & origName)
+                                If DateTime.TryParseExact(origName, oldPattern, Nothing, DateTimeStyles.None, origDate) Then
+                                    Debug.WriteLine("Converted '{0}' to {1:d}.", origName, origDate)
+                                    newName = origDate.ToString(newPattern)
+                                    xSub2.Name = newName
+                                Else
+                                    Debug.WriteLine("Unable to convert '{0}' to a date and time.", origName)
+                                End If
+                            End If
+                            If xSub2.Folders.Count > 0 Then
+                                Dim xSub3 As Outlook.Folder
+                                For Each xSub3 In xSub2.Folders
+                                    origName = xSub3.Name
+                                    If Len(origName) <> 14 Then
+                                        Debug.WriteLine("Folder Name: " & origName)
+                                        If DateTime.TryParseExact(origName, oldPattern, Nothing, DateTimeStyles.None, origDate) Then
+                                            Debug.WriteLine("Converted '{0}' to {1:d}.", origName, origDate)
+                                            newName = origDate.ToString(newPattern)
+                                            xSub3.Name = newName
+                                        Else
+                                            Debug.WriteLine("Unable to convert '{0}' to a date and time.", origName)
+                                        End If
+                                    End If
+                                    If xSub3.Folders.Count > 0 Then
+                                        Dim xSub4 As Outlook.Folder
+                                        For Each xSub4 In xSub3.Folders
+                                            origName = xSub4.Name
+                                            If Len(origName) <> 14 Then
+                                                Debug.WriteLine("Folder Name: " & origName)
+                                                If DateTime.TryParseExact(origName, oldPattern, Nothing, DateTimeStyles.None, origDate) Then
+                                                    Debug.WriteLine("Converted '{0}' to {1:d}.", origName, origDate)
+                                                    newName = origDate.ToString(newPattern)
+                                                    xSub4.Name = newName
+                                                Else
+                                                    Debug.WriteLine("Unable to convert '{0}' to a date and time.", origName)
+                                                End If
+                                            End If
+                                            If xSub4.Folders.Count > 0 Then
+                                                Dim xSub5 As Outlook.Folder
+                                                For Each xSub5 In xSub4.Folders
+                                                    origName = xSub5.Name
+                                                    If Len(origName) <> 14 Then
+                                                        Debug.WriteLine("Folder Name: " & origName)
+                                                        If DateTime.TryParseExact(origName, oldPattern, Nothing, DateTimeStyles.None, origDate) Then
+                                                            Debug.WriteLine("Converted '{0}' to {1:d}.", origName, origDate)
+                                                            newName = origDate.ToString(newPattern)
+                                                            xSub5.Name = newName
+                                                        Else
+                                                            Debug.WriteLine("Unable to convert '{0}' to a date and time.", origName)
+                                                        End If
+                                                    End If
+                                                    If xSub5.Folders.Count > 0 Then
+                                                        Dim xSub6 As Outlook.Folder
+                                                        For Each xSub6 In xSub5.Folders
+                                                            origName = xSub6.Name
+                                                            If Len(origName) <> 14 Then
+                                                                Debug.WriteLine("Folder Name: " & origName)
+                                                                If DateTime.TryParseExact(origName, oldPattern, Nothing, DateTimeStyles.None, origDate) Then
+                                                                    Debug.WriteLine("Converted '{0}' to {1:d}.", origName, origDate)
+                                                                    newName = origDate.ToString(newPattern)
+                                                                    xSub6.Name = newName
+                                                                Else
+                                                                    Debug.WriteLine("Unable to convert '{0}' to a date and time.", origName)
+                                                                End If
+                                                            End If
+                                                        Next
+                                                    End If
+                                                Next
+                                            End If
+                                        Next
+                                    End If
+                                Next
+                            End If
+                        Next
+                    End If
+                Next
+            End If
+        Next
+    End Sub
+    Public Function ExtractTicketNumber(strTkt As String) As String
+        Try
+            tktNumRegExPattern = "(\d{14})"
+            Dim tktNumRegEx As New Regex(tktNumRegExPattern)
+            Dim matchCol As MatchCollection = tktNumRegEx.Matches(strTkt)
+            Dim myMatch As Match
+            If matchCol.Count = 0 Then
+                ExtractTicketNumber = "Not Found"
+            Else
+                myMatch = matchCol(0)
+                ExtractTicketNumber = myMatch.ToString
+            End If
+
+        Catch e As System.ArgumentNullException
+            MsgBox("Extract Ticket Number fed Null Value." & vbNewLine & e.Message)
+            ExtractTicketNumber = "Null Value"
+        Finally
+            myTicketNumber = ExtractTicketNumber
+        End Try
+    End Function
+
+    Public Function ExtractSmallJobNum(strText As String) As String
+        Try
+            Dim stiRegEx As New Regex(STISmallJobRegExPattern)
+            Dim matchCol As MatchCollection = stiRegEx.Matches(strText)
+            Dim tlsRegEx As New Regex(TLSSmallJobRegExPattern)
+            Dim matchCol2 As MatchCollection = tlsRegEx.Matches(strText)
+            Dim myMatch As Match
+            If matchCol.Count = 0 Then
+                If matchCol2.Count = 0 Then
+                    ExtractSmallJobNum = "Not Found"
+                Else
+                    myMatch = matchCol2(0)
+                    ExtractSmallJobNum = myMatch.ToString
+                End If
+            Else
+                    myMatch = matchCol(0)
+                ExtractSmallJobNum = myMatch.ToString
+            End If
+        Catch e As System.ArgumentException
+            Debug.WriteLine(e.Message)
+            ExtractSmallJobNum = "Null Value"
+        Finally
+            mySJNumber = ExtractSmallJobNum
+        End Try
     End Function
     Public Function ExtractMemberCode(strTkt As String) As String
-        memCodeRegExPattern = "(OGTEAST|P66OK03|((S|T){1}\d{5}))"
-        Dim memCodeRegEx As New Regex(memCodeRegExPattern)
-        Dim matchCol As MatchCollection = memCodeRegEx.Matches(strTkt)
-        Dim myMatch As Match
-        If matchCol.Count = 0 Then
-            ExtractMemberCode = "Not Found"
-        Else
-            myMatch = matchCol(0)
-            ExtractMemberCode = myMatch.ToString
-        End If
-        myMemberCode = ExtractMemberCode
+        Try
+            memCodeRegExPattern = "(OGTEAST|P66OK03|((S|T){1}\d{5}))"
+            Dim memCodeRegEx As New Regex(memCodeRegExPattern)
+            Dim matchCol As MatchCollection = memCodeRegEx.Matches(strTkt)
+            Dim myMatch As Match
+            If matchCol.Count = 0 Then
+                ExtractMemberCode = "Not Found"
+            Else
+                myMatch = matchCol(0)
+                ExtractMemberCode = myMatch.ToString
+            End If
+        Catch e As System.ArgumentException
+            Debug.WriteLine(e.Message)
+
+            ExtractMemberCode = "Null Value"
+        Finally
+            myMemberCode = ExtractMemberCode
+        End Try
     End Function
     Public Function GetTicketNumber(Item As Outlook.MailItem) As String
-        tktNumRegExPattern = "(/d{14})"
-        ExtractTicketNumber(Item.Subject)
-        If Not myTicketNumber = "Not Found" Then
-            GetTicketNumber = myTicketNumber
-        Else
-            ExtractTicketNumber(Item.Body)
-            If Not myTicketNumber = "Not Found" Then
+        Try
+            tktNumRegExPattern = "(/d{14})"
+            ExtractTicketNumber(Item.Subject)
+            If Not myTicketNumber = "Not Found" And Not myTicketNumber = "Null Value" Then
                 GetTicketNumber = myTicketNumber
             Else
-                GetTicketNumber = "Unknown"
+                ExtractTicketNumber(Item.Body)
+                If Not myTicketNumber = "Not Found" And Not myTicketNumber = "Null Value" Then
+                    GetTicketNumber = myTicketNumber
+                Else
+                    GetTicketNumber = "Unknown"
+                End If
             End If
-        End If
-        Debug.Print("GetTicketNumber: " & GetTicketNumber)
+            Debug.Print("GetTicketNumber: " & GetTicketNumber)
+        Catch e As System.Exception
+            Debug.WriteLine(e.Message)
+            GetTicketNumber = "Unknown"
+        Finally
+            myTicketNumber = GetTicketNumber
+        End Try
     End Function
     Public Sub MyPowershell(myScriptPath As String, Optional myParameterName1 As String = vbNullString, Optional MyParameter1 As String = vbNullString, Optional MyParameterName2 As String = vbNullString, Optional MyParameter2 As String = vbNullString)
         Dim myPath As String

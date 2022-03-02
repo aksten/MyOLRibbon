@@ -63,8 +63,8 @@
           <button id="btnSpam" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
           <separator id="sep33"/>
           <button id="btnSendNewestPhoneList" label="Send Phone List" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />
-          <button id="btnEmailHR" label="Email HR" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
-          <button id="btnEmailDeduction" label="Email Deduction" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnEmailNoOp" label="Email No Operator" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction"/>
+          <button id="btnEmailTRDue" label="Email T.R. Due" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />
       </group>
         <group id="grpProcess" label="Process 2 PDF" getImage="GetImage">
           <button id="btnSaveTicket" label="Save Ticket" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
@@ -75,10 +75,12 @@
         </group>
         <group id ="grpAlter" label="Alter Emails" getImage="GetImage">
           <button id="btnRemovePrefixes" label="Remove Prefix" description="Removes re fw external or pdf from subject line" screentip="Can be used on selected item or opened item."  size="large" getImage="GetImage" onAction="GetOnAction" />
-         </group>
+          <button id="btnFixLocateSubjects" label="Fix Move Ticket" description="Renames subject line." screentip="Can be used on selected item or opened item."  size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnFixLocateResponseSubjects" label="Fix Move Response" description="Move ticket to job ticket folder." size="large" getImage="GetImage" onAction="GetOnAction" />
+        </group>
         <group id="grpBrowse2" label="Open Folder" getImage="GetImage">
-          <dropDown id="ddBrowse2BArchiveFolders" label="Open TLS Archived 19:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBrowse2BSTArchiveFolders" label="Open BST Archived 19:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2BArchiveFolders" label="Open TLS Archived:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBrowse2BSTArchiveFolders" label="Open BST Archived:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddBrowse2QuoteFolders" label="Open Quote:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <!--<dropDown id="ddBrowse2TulEmpFolders" label="Open TUL Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddBrowse2ArkEmpFolders" label="Open ARK Emp Folder:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
@@ -104,10 +106,13 @@
           <dropDown id="ddSTIFolders" label="STI Small Job>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddQuoteFolders" label="Quote>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <separator id="sep233"/>
-          <dropDown id="ddBArchiveFolders" label="TLS 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBSTArchiveFolders" label="BST 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBSTArchiveFolders20" label="BST 20 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
-          <dropDown id="ddBArchiveFolders20" label="TLS 20 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBArchiveFolders21" label="TLS 21 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBSTArchiveFolders21" label="BST 21 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <separator id="sep555"/>
+          <dropDown id="ddBArchiveFolders22" label="TLS Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBSTArchiveFolders22" label="BST Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <!--><dropDown id="ddBArchiveFolders" label="TLS 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
+          <dropDown id="ddBSTArchiveFolders" label="BST 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>-->
           <separator id="sep987"/>
           <editBox id="txtJobNumber" sizeString="Create Billing Text" getText="GetEditBoxText" maxLength="8" onChange="GetOnChange"/>
           <button id="btnCreateBillText" label="Create Billing Text" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction" />
@@ -125,6 +130,7 @@
           <button id="btnAddFolder" label="Add New Folder" description="Add a New Folder" screentip="Add New Folder" supertip="You will be prompted for the parent and subfolder under 'Folders'" size="large" getImage="GetImage" onAction="GetOnAction" />
           <button id="btnInvalidate" label= "Refresh Controls" description="Refresh Drop Down Controls" screentip="Refresh" supertip="All the drop down items if a new folder is added." size="large" getImage="GetImage" onAction="GetOnAction" />
           <button id="btnMoveSenderFolder2" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
+          <button id="btnMoveRecipientFolder" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
         </group>
         </tab>
     </tabs>
