@@ -586,16 +586,16 @@ Public Class amanda
                     myFolder = CStr("\\Archive\Small Jobs\TUL\TLS\2022\" & myB2019ArchiveArray(selectedIndex))
                     Browse2Folder(myFolder)
                 Case "ddBSTArchiveFolders"
-                    myFolder = CStr("Small Jobs\TUL\STI\2022\" & myBST2019ArchiveArray(selectedIndex))
+                    myFolder = CStr("Small Jobs\TUL\STI\2022\" & myBST2022ArchiveArray(selectedIndex))
                     MoveToFolder("SJArchive", myFolder)
                 Case "ddBSTArchiveFolders22"
-                    myFolder = CStr("Small Jobs\TUL\STI\2022\" & myBST2020ArchiveArray(selectedIndex))
+                    myFolder = CStr("Small Jobs\TUL\STI\2022\" & myBST2022ArchiveArray(selectedIndex))
                     MoveToFolder("SJArchive", myFolder)
                 Case "ddBArchiveFolders"
-                    myFolder = CStr("Small Jobs\TUL\TLS\2022\" & myB2019ArchiveArray(selectedIndex))
+                    myFolder = CStr("Small Jobs\TUL\TLS\2022\" & myB2022ArchiveArray(selectedIndex))
                     MoveToFolder("SJArchive", myFolder)
                 Case "ddBArchiveFolders22"
-                    myFolder = CStr("Small Jobs\TUL\TLS\2022\" & myB2020ArchiveArray(selectedIndex))
+                    myFolder = CStr("Small Jobs\TUL\TLS\2022\" & myB2022ArchiveArray(selectedIndex))
                     MoveToFolder("SJArchive", myFolder)
                 Case "ddQuoteFolders"
                     myFolder = CStr("Small Jobs\Quotes - Pending\" & myQuoteFolderArray(selectedIndex))

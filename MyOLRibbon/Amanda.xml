@@ -113,20 +113,21 @@
           <dropDown id="ddBSTArchiveFolders22" label="BST Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <!--><dropDown id="ddBArchiveFolders" label="TLS 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddBSTArchiveFolders" label="BST 19 Archived>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>-->
-          <separator id="sep987"/>
-          <editBox id="txtJobNumber" sizeString="Create Billing Text" getText="GetEditBoxText" maxLength="8" onChange="GetOnChange"/>
-          <button id="btnCreateBillText" label="Create Billing Text" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction" />
-          <button id="btnSaveInvoice" label="Save Invoice" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction"/>
-          <!--<button id="btnAddBilledDetails" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />-->
-          <button id="btnSaveTaskOrder" label="Save Task Order" description="Saves task order to job folder and transcore folder." screentip="Can be used on ONE selected item at a time."  size="large" getImage="GetImage" onAction="GetOnAction" />
-          <separator id ="sep333"/>   
+			<separator id="sep255">
           <dropDown id="ddJobFolders" label="Job>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddVendorFolders" label="Vendor>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
          <separator id="sepVert2"/>
           <dropDown id="ddConCity" label="Contract>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
           <dropDown id="ddNonConCity" label="Non-Contract>:" getItemCount="GetItemCount" getItemID="GetItemID" getItemLabel="GetItemLabel" getSelectedItemID="GetSelectedItemID" showItemLabel="true" onAction="DropDownAction"/>
         </group>
-        <group id="grpFolderActions" getLabel="Folder Actions" getImage="GetImage">
+		  <group id="grpProcess" label="Process Invoicing" getImage="GetImage">
+			  <editBox id="txtJobNumber" sizeString="Create Billing Text" getText="GetEditBoxText" maxLength="8" onChange="GetOnChange"/>
+			  <button id="btnCreateBillText" label="Create Billing Text" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction" />
+			  <button id="btnSaveInvoice" label="Save Invoice" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" onAction="GetOnAction"/>
+			  <!--<button id="btnAddBilledDetails" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="normal" getImage="GetImage" onAction="GetOnAction" />-->
+			  <button id="btnSaveTaskOrder" label="Save Task Order" description="Saves task order to job folder and transcore folder." screentip="Can be used on ONE selected item at a time."  size="large" getImage="GetImage" onAction="GetOnAction" />
+		  </group>
+        <group id="grpFolderActions" label="Folder Actions" getImage="GetImage">
           <button id="btnAddFolder" label="Add New Folder" description="Add a New Folder" screentip="Add New Folder" supertip="You will be prompted for the parent and subfolder under 'Folders'" size="large" getImage="GetImage" onAction="GetOnAction" />
           <button id="btnInvalidate" label= "Refresh Controls" description="Refresh Drop Down Controls" screentip="Refresh" supertip="All the drop down items if a new folder is added." size="large" getImage="GetImage" onAction="GetOnAction" />
           <button id="btnMoveSenderFolder2" getLabel="GetLabel" getDescription="GetDescription" getScreentip="GetScreentip" getSupertip="GetSupertip" size="large" getImage="GetImage" onAction="GetOnAction" />
